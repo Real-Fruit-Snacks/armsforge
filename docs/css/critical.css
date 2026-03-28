@@ -1,0 +1,215 @@
+/* ====================
+   Critical Path CSS - Above the fold content only
+   ==================== */
+
+/* Essential CSS Reset & Base */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: 'Outfit', -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+  line-height: 1.7;
+  color: #cdd6f4;
+  background-color: #1e1e2e;
+  overflow-x: hidden;
+  font-feature-settings: "kern" 1, "liga" 1;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Critical CSS Variables */
+:root {
+  --ctp-base: #1e1e2e;
+  --ctp-mantle: #181825;
+  --ctp-surface0: #313244;
+  --ctp-text: #cdd6f4;
+  --ctp-subtext1: #bac2de;
+  --ctp-subtext0: #a6adc8;
+  --ctp-red: #f38ba8;
+  --ctp-mauve: #cba6f7;
+  --ctp-pink: #f5c2e7;
+  --ctp-green: #a6e3a1;
+  --spacing-xs: 0.5rem;
+  --spacing-sm: 1rem;
+  --spacing-md: 1.5rem;
+  --spacing-lg: 2rem;
+  --spacing-xl: 3rem;
+  --spacing-2xl: 4rem;
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 16px;
+  --z-fixed: 1030;
+}
+
+/* Navigation - Critical */
+.nav {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  background: rgba(17, 17, 27, 0.9);
+  backdrop-filter: blur(10px);
+  border-bottom: 1px solid rgba(205, 214, 244, 0.1);
+  z-index: var(--z-fixed);
+  transition: all 0.3s ease;
+}
+
+.nav__container {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--spacing-sm) var(--spacing-lg);
+}
+
+.nav__logo {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-xs);
+  text-decoration: none;
+  color: var(--ctp-text);
+  font-weight: 600;
+  font-size: 1.125rem;
+}
+
+.nav__logo-icon {
+  font-size: 1.5rem;
+}
+
+.nav__links {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-lg);
+  list-style: none;
+}
+
+.nav__link {
+  color: var(--ctp-subtext1);
+  text-decoration: none;
+  font-weight: 500;
+  transition: color 0.3s ease;
+}
+
+.nav__link:hover {
+  color: var(--ctp-red);
+}
+
+/* Hero Section - Critical */
+.hero {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  padding: var(--spacing-2xl) 0;
+  background: linear-gradient(135deg, var(--ctp-base) 0%, var(--ctp-mantle) 100%);
+  position: relative;
+  overflow: hidden;
+}
+
+.hero__container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 var(--spacing-lg);
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--spacing-2xl);
+  align-items: center;
+}
+
+.hero__title {
+  font-size: clamp(3rem, 6vw, 4.5rem);
+  font-weight: 700;
+  line-height: 1.1;
+  margin-bottom: var(--spacing-lg);
+  display: flex;
+  flex-direction: column;
+}
+
+.hero__title-main {
+  color: var(--ctp-text);
+}
+
+.hero__title-accent {
+  background: linear-gradient(45deg, var(--ctp-red), var(--ctp-pink));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  will-change: filter;
+}
+
+.hero__description {
+  font-size: 1.125rem;
+  color: var(--ctp-subtext1);
+  line-height: 1.7;
+  margin-bottom: var(--spacing-xl);
+  max-width: 600px;
+}
+
+/* Buttons - Critical */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--spacing-sm) var(--spacing-lg);
+  border-radius: var(--radius-md);
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 1rem;
+  transition: transform 0.3s ease;
+  border: none;
+  cursor: pointer;
+}
+
+.btn--primary {
+  background: linear-gradient(45deg, var(--ctp-red), var(--ctp-pink));
+  color: var(--ctp-base);
+}
+
+.btn--secondary {
+  background: transparent;
+  color: var(--ctp-text);
+  border: 1px solid rgba(205, 214, 244, 0.2);
+}
+
+/* Mobile Navigation Toggle */
+.nav__hamburger {
+  display: none;
+  flex-direction: column;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: var(--spacing-xs);
+}
+
+.nav__hamburger span {
+  width: 24px;
+  height: 2px;
+  background: var(--ctp-text);
+  margin: 2px 0;
+  transition: all 0.3s ease;
+}
+
+@media (max-width: 768px) {
+  .nav__links {
+    display: none;
+  }
+
+  .nav__hamburger {
+    display: flex;
+  }
+
+  .hero__container {
+    grid-template-columns: 1fr;
+    text-align: center;
+  }
+}

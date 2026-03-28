@@ -1,0 +1,96 @@
+{
+  "name": "Armsforge - Offensive Security Toolkit",
+  "short_name": "Armsforge",
+  "description": "Enterprise-grade offensive security platform that transforms red team operations with intelligent automation and Claude Code integration",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#1e1e2e",
+  "theme_color": "#f38ba8",
+  "orientation": "portrait-primary",
+  "scope": "/",
+  "lang": "en",
+  "categories": ["security", "developer-tools", "productivity"],
+  "icons": [
+    {
+      "src": "favicon-16x16.png",
+      "sizes": "16x16",
+      "type": "image/png"
+    },
+    {
+      "src": "favicon-32x32.png",
+      "sizes": "32x32",
+      "type": "image/png"
+    },
+    {
+      "src": "apple-touch-icon.png",
+      "sizes": "180x180",
+      "type": "image/png"
+    },
+    {
+      "src": "android-chrome-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "maskable"
+    },
+    {
+      "src": "android-chrome-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    }
+  ],
+  "screenshots": [
+    {
+      "src": "screenshot-desktop.png",
+      "sizes": "1280x720",
+      "type": "image/png",
+      "platform": "wide",
+      "label": "Armsforge Desktop Interface"
+    },
+    {
+      "src": "screenshot-mobile.png",
+      "sizes": "360x640",
+      "type": "image/png",
+      "platform": "narrow",
+      "label": "Armsforge Mobile Interface"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "View Features",
+      "short_name": "Features",
+      "url": "/#features",
+      "icons": [
+        {
+          "src": "shortcut-features.png",
+          "sizes": "96x96",
+          "type": "image/png"
+        }
+      ]
+    },
+    {
+      "name": "Installation Guide",
+      "short_name": "Install",
+      "url": "/#installation",
+      "icons": [
+        {
+          "src": "shortcut-install.png",
+          "sizes": "96x96",
+          "type": "image/png"
+        }
+      ]
+    },
+    {
+      "name": "GitHub Repository",
+      "short_name": "GitHub",
+      "url": "https://github.com/Real-Fruit-Snacks/armsforge",
+      "icons": [
+        {
+          "src": "shortcut-github.png",
+          "sizes": "96x96",
+          "type": "image/png"
+        }
+      ]
+    }
+  ]
+}

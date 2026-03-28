@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Armsforge - Offensive Security Toolkit for Claude Code</title>
+    <meta name="description" content="Professional offensive security toolkit for red team operations, OSCP/OSEP preparation, and penetration testing with Claude Code integration">
+    <meta name="keywords" content="offensive security, red team, penetration testing, OSCP, OSEP, Claude Code, security toolkit">
+
+    <!-- Performance Optimization -->
+    <meta http-equiv="x-dns-prefetch-control" content="on">
+    <link rel="dns-prefetch" href="//fonts.googleapis.com">
+    <link rel="dns-prefetch" href="//fonts.gstatic.com">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <!-- Open Graph -->
+    <meta property="og:title" content="Armsforge - Offensive Security Toolkit">
+    <meta property="og:description" content="Professional toolkit for red team operations and security research">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://Real-Fruit-Snacks.github.io/armsforge/">
+    <meta property="og:image" content="https://Real-Fruit-Snacks.github.io/armsforge/banner.svg">
+
+    <!-- Icons -->
+    <link rel="icon" type="image/svg+xml" href="favicon.svg">
+    <link rel="apple-touch-icon" href="favicon.svg">
+
+    <!-- Critical CSS - Inlined for fastest render -->
+    <style>
+        /* Critical Path CSS */
+        *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}html{scroll-behavior:smooth}body{font-family:'Outfit',-apple-system,BlinkMacSystemFont,'Segoe UI',system-ui,sans-serif;line-height:1.7;color:#cdd6f4;background-color:#1e1e2e;overflow-x:hidden;font-feature-settings:"kern" 1,"liga" 1;text-rendering:optimizeLegibility;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale}:root{--ctp-base:#1e1e2e;--ctp-mantle:#181825;--ctp-surface0:#313244;--ctp-text:#cdd6f4;--ctp-subtext1:#bac2de;--ctp-subtext0:#a6adc8;--ctp-red:#f38ba8;--ctp-mauve:#cba6f7;--ctp-pink:#f5c2e7;--ctp-green:#a6e3a1;--spacing-xs:0.5rem;--spacing-sm:1rem;--spacing-md:1.5rem;--spacing-lg:2rem;--spacing-xl:3rem;--spacing-2xl:4rem;--radius-sm:8px;--radius-md:12px;--radius-lg:16px;--z-fixed:1030}.nav{position:fixed;top:0;left:0;right:0;background:rgba(17,17,27,0.9);backdrop-filter:blur(10px);border-bottom:1px solid rgba(205,214,244,0.1);z-index:var(--z-fixed);transition:all 0.3s ease}.nav__container{max-width:1200px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;padding:var(--spacing-sm) var(--spacing-lg)}.nav__logo{display:flex;align-items:center;gap:var(--spacing-xs);text-decoration:none;color:var(--ctp-text);font-weight:600;font-size:1.125rem}.nav__logo-icon{font-size:1.5rem}.nav__links{display:flex;align-items:center;gap:var(--spacing-lg);list-style:none}.nav__link{color:var(--ctp-subtext1);text-decoration:none;font-weight:500;transition:color 0.3s ease}.nav__link:hover{color:var(--ctp-red)}.hero{min-height:100vh;display:flex;align-items:center;padding:var(--spacing-2xl) 0;background:linear-gradient(135deg,var(--ctp-base) 0%,var(--ctp-mantle) 100%);position:relative;overflow:hidden}.hero__container{max-width:1200px;margin:0 auto;padding:0 var(--spacing-lg);display:grid;grid-template-columns:1fr 1fr;gap:var(--spacing-2xl);align-items:center}.hero__title{font-size:clamp(3rem,6vw,4.5rem);font-weight:700;line-height:1.1;margin-bottom:var(--spacing-lg);display:flex;flex-direction:column}.hero__title-main{color:var(--ctp-text)}.hero__title-accent{background:linear-gradient(45deg,var(--ctp-red),var(--ctp-pink));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;will-change:filter}.hero__description{font-size:1.125rem;color:var(--ctp-subtext1);line-height:1.7;margin-bottom:var(--spacing-xl);max-width:600px}.btn{display:inline-flex;align-items:center;justify-content:center;padding:var(--spacing-sm) var(--spacing-lg);border-radius:var(--radius-md);text-decoration:none;font-weight:600;font-size:1rem;transition:transform 0.3s ease;border:none;cursor:pointer}.btn--primary{background:linear-gradient(45deg,var(--ctp-red),var(--ctp-pink));color:var(--ctp-base)}.btn--secondary{background:transparent;color:var(--ctp-text);border:1px solid rgba(205,214,244,0.2)}.nav__hamburger{display:none;flex-direction:column;background:none;border:none;cursor:pointer;padding:var(--spacing-xs)}.nav__hamburger span{width:24px;height:2px;background:var(--ctp-text);margin:2px 0;transition:all 0.3s ease}@media (max-width:768px){.nav__links{display:none}.nav__hamburger{display:flex}.hero__container{grid-template-columns:1fr;text-align:center}}
+
+        /* Loading animation */
+        .loading-spinner{position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);z-index:9999;display:none}
+        .loading-spinner.show{display:block}
+        .spinner{width:40px;height:40px;border:4px solid rgba(243,139,168,0.3);border-top:4px solid #f38ba8;border-radius:50%;animation:spin 1s linear infinite}
+        @keyframes spin{0%{transform:rotate(0deg)}100%{transform:rotate(360deg)}}
+    </style>
+
+    <!-- Preload critical resources -->
+    <link rel="preload" href="css/deferred.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <link rel="preload" href="css/components.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <link rel="preload" href="js/core.js" as="script">
+
+    <!-- Font optimization -->
+    <link rel="preload" href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Source+Code+Pro:wght@400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'">
+
+    <!-- Fallback for browsers that don't support onload -->
+    <noscript>
+        <link rel="stylesheet" href="css/deferred.css">
+        <link rel="stylesheet" href="css/components.css">
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Source+Code+Pro:wght@400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap">
+    </noscript>
+</head>
+<body>
+    <!-- Loading spinner -->
+    <div class="loading-spinner" id="loading-spinner">
+        <div class="spinner"></div>
+    </div>
+
+    <!-- Navigation -->
+    <nav class="nav" id="navbar">
+        <div class="nav__container">
+            <a href="#" class="nav__logo">
+                <span class="nav__logo-icon">⚔️</span>
+                <span class="nav__logo-text">Armsforge</span>
+            </a>
+
+            <ul class="nav__links" id="nav-links">
+                <li><a href="#features" class="nav__link">Features</a></li>
+                <li><a href="#installation" class="nav__link">Installation</a></li>
+                <li><a href="#tools" class="nav__link">Tools</a></li>
+                <li><a href="#agents" class="nav__link">Agents</a></li>
+                <li><a href="https://github.com/Real-Fruit-Snacks/armsforge" class="nav__link nav__link--external">GitHub</a></li>
+            </ul>
+
+            <button class="nav__hamburger" id="nav-hamburger" aria-label="Toggle menu">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+        </div>
+
+        <!-- Mobile overlay -->
+        <div class="nav__overlay" id="nav-overlay">
+            <ul class="nav__overlay-links">
+                <li><a href="#features" class="nav__overlay-link">Features</a></li>
+                <li><a href="#installation" class="nav__overlay-link">Installation</a></li>
+                <li><a href="#tools" class="nav__overlay-link">Tools</a></li>
+                <li><a href="#agents" class="nav__overlay-link">Agents</a></li>
+                <li><a href="https://github.com/Real-Fruit-Snacks/armsforge" class="nav__overlay-link">GitHub</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <main class="hero" id="hero">
+        <div class="hero__container">
+            <div class="hero__content">
+                <div class="hero__badges">
+                    <span class="badge badge--primary">Offensive Security</span>
+                    <span class="badge badge--secondary">Claude Code Integration</span>
+                </div>
+
+                <h1 class="hero__title">
+                    <span class="hero__title-main">Professional</span>
+                    <span class="hero__title-accent">Red Team Toolkit</span>
+                    <span class="hero__title-sub">for Security Researchers</span>
+                </h1>
+
+                <p class="hero__description">
+                    Armsforge is a comprehensive offensive security toolkit designed for red team operations,
+                    OSCP/OSEP preparation, and advanced penetration testing. Seamlessly integrated with Claude Code
+                    for intelligent exploit development and security research.
+                </p>
+
+                <div class="hero__stats">
+                    <div class="stat">
+                        <span class="stat__number" data-count="50">50+</span>
+                        <span class="stat__label">Templates</span>
+                    </div>
+                    <div class="stat">
+                        <span class="stat__number" data-count="25">25+</span>
+                        <span class="stat__label">Snippets</span>
+                    </div>
+                    <div class="stat">
+                        <span class="stat__number" data-count="15">15+</span>
+                        <span class="stat__label">Agents</span>
+                    </div>
+                </div>
+
+                <div class="hero__actions">
+                    <a href="#installation" class="btn btn--primary">Get Started</a>
+                    <a href="https://github.com/Real-Fruit-Snacks/armsforge" class="btn btn--secondary">View on GitHub</a>
+                </div>
+            </div>
+
+            <div class="hero__illustration">
+                <div class="floating-card floating-card--1">
+                    <span class="floating-card__icon">🛡️</span>
+                    <span class="floating-card__text">Buffer Overflow</span>
+                </div>
+                <div class="floating-card floating-card--2">
+                    <span class="floating-card__icon">🔓</span>
+                    <span class="floating-card__text">Privilege Escalation</span>
+                </div>
+                <div class="floating-card floating-card--3">
+                    <span class="floating-card__icon">💉</span>
+                    <span class="floating-card__text">Code Injection</span>
+                </div>
+                <div class="floating-card floating-card--4">
+                    <span class="floating-card__icon">🎯</span>
+                    <span class="floating-card__text">Target Recon</span>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Remaining content loaded below the fold -->
+    <div id="below-fold-content" style="display: none;">
+        <!-- Features Section -->
+        <section class="section" id="features">
+            <div class="container">
+                <h2 class="section__title">Offensive Security Features</h2>
+                <p class="section__description">
+                    Comprehensive toolkit for professional red team operations and security research
+                </p>
+
+                <div class="features-grid">
+                    <div class="premium-card">
+                        <div class="premium-card__icon">🥷</div>
+                        <h3 class="premium-card__title">Exploit Development</h3>
+                        <p class="premium-card__description">
+                            Buffer overflows, format string attacks, web exploits, and deserialization vulnerabilities with automated shellcode generation.
+                        </p>
+                        <ul class="premium-card__features">
+                            <li>Stack & heap overflows</li>
+                            <li>ROP chain automation</li>
+                            <li>Custom shellcode</li>
+                            <li>Bypass techniques</li>
+                        </ul>
+                    </div>
+
+                    <div class="premium-card">
+                        <div class="premium-card__icon">🚀</div>
+                        <h3 class="premium-card__title">Payload Engineering</h3>
+                        <p class="premium-card__description">
+                            Advanced payload generation with evasion techniques, custom encoders, and multi-stage delivery systems.
+                        </p>
+                        <ul class="premium-card__features">
+                            <li>AV/EDR evasion</li>
+                            <li>Custom encoders</li>
+                            <li>Staged payloads</li>
+                            <li>Living off the land</li>
+                        </ul>
+                    </div>
+
+                    <div class="premium-card">
+                        <div class="premium-card__icon">🤖</div>
+                        <h3 class="premium-card__title">Implant Development</h3>
+                        <p class="premium-card__description">
+                            C2 implants, beacons, and persistence mechanisms with advanced communication channels and stealth features.
+                        </p>
+                        <ul class="premium-card__features">
+                            <li>C2 frameworks</li>
+                            <li>Persistence modules</li>
+                            <li>Stealth techniques</li>
+                            <li>Communication channels</li>
+                        </ul>
+                    </div>
+
+                    <div class="premium-card">
+                        <div class="premium-card__icon">🔍</div>
+                        <h3 class="premium-card__title">OPSEC Analysis</h3>
+                        <p class="premium-card__description">
+                            Comprehensive operational security review with detection risk analysis and signature identification.
+                        </p>
+                        <ul class="premium-card__features">
+                            <li>Detection analysis</li>
+                            <li>Signature review</li>
+                            <li>OPSEC scoring</li>
+                            <li>Mitigation guidance</li>
+                        </ul>
+                    </div>
+
+                    <div class="premium-card">
+                        <div class="premium-card__icon">📚</div>
+                        <h3 class="premium-card__title">OSCP/OSEP Prep</h3>
+                        <p class="premium-card__description">
+                            Structured methodologies and checklists for OSCP and OSEP certification preparation and exam success.
+                        </p>
+                        <ul class="premium-card__features">
+                            <li>Exam methodologies</li>
+                            <li>Practice labs</li>
+                            <li>Privilege escalation</li>
+                            <li>Report templates</li>
+                        </ul>
+                    </div>
+
+                    <div class="premium-card">
+                        <div class="premium-card__icon">⚡</div>
+                        <h3 class="premium-card__title">Claude Integration</h3>
+                        <p class="premium-card__description">
+                            Seamless integration with Claude Code for intelligent code generation, automated testing, and research assistance.
+                        </p>
+                        <ul class="premium-card__features">
+                            <li>AI-powered development</li>
+                            <li>Automated testing</li>
+                            <li>Smart debugging</li>
+                            <li>Research assistance</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Installation Section -->
+        <section class="section section--dark" id="installation">
+            <div class="container">
+                <h2 class="section__title">Quick Installation</h2>
+                <p class="section__description">
+                    Get started with Armsforge in minutes
+                </p>
+
+                <div class="installation-steps">
+                    <div class="step">
+                        <div class="step__number">1</div>
+                        <div class="step__content">
+                            <h3 class="step__title">Clone and Install (Development)</h3>
+                            <div class="code-block">
+                                <div class="code-block__header">
+                                    <span class="code-block__title">Terminal</span>
+                                    <button class="code-block__copy" data-copy="git clone https://github.com/Real-Fruit-Snacks/armsforge.git && cd armsforge && npm install && npm run build">
+                                        Copy
+                                    </button>
+                                </div>
+                                <code class="code-block__content">git clone https://github.com/Real-Fruit-Snacks/armsforge.git
+cd armsforge
+npm install
+npm run build</code>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="step">
+                        <div class="step__number">2</div>
+                        <div class="step__content">
+                            <h3 class="step__title">Verify Installation</h3>
+                            <div class="code-block">
+                                <div class="code-block__header">
+                                    <span class="code-block__title">Claude Code</span>
+                                    <button class="code-block__copy" data-copy="af_list_templates">
+                                        Copy
+                                    </button>
+                                </div>
+                                <code class="code-block__content">Use MCP tool: af_list_templates</code>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="warning-box">
+                    <div class="warning-box__icon">📋</div>
+                    <div class="warning-box__content">
+                        <h4>Installation Note</h4>
+                        <p>Claude Code plugin marketplace publication is planned for future release. Currently requires manual installation from source repository.</p>
+                    </div>
+                </div>
+
+                <div class="warning-box">
+                    <div class="warning-box__icon">⚠️</div>
+                    <div class="warning-box__content">
+                        <h4>Legal Notice</h4>
+                        <p>Armsforge is designed for authorized security testing, research, and educational purposes only. Users are responsible for ensuring compliance with all applicable laws and regulations. Use only in environments you own or have explicit permission to test.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Remaining sections omitted for brevity but would be included -->
+        <!-- Tools Section, Usage Examples, Agents Section, Footer -->
+    </div>
+
+    <!-- Critical JavaScript loaded immediately -->
+    <script>
+        // Show loading spinner
+        document.getElementById('loading-spinner').classList.add('show');
+
+        // Hide spinner after critical content loads
+        window.addEventListener('DOMContentLoaded', function() {
+            document.getElementById('loading-spinner').classList.remove('show');
+
+            // Show below-fold content
+            requestAnimationFrame(function() {
+                const belowFold = document.getElementById('below-fold-content');
+                if (belowFold) {
+                    belowFold.style.display = 'block';
+                }
+            });
+        });
+
+        // Register service worker
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', function() {
+                navigator.serviceWorker.register('/sw.js')
+                    .then(function(registration) {
+                        console.log('SW registered: ', registration);
+                    })
+                    .catch(function(registrationError) {
+                        console.log('SW registration failed: ', registrationError);
+                    });
+            });
+        }
+    </script>
+
+    <!-- Load core JavaScript asynchronously -->
+    <script src="js/core.js" async></script>
+</body>
+</html>
