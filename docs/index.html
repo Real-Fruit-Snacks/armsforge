@@ -13,6 +13,11 @@
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://Real-Fruit-Snacks.github.io/armsforge/">
 
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href="favicon.svg">
+    <link rel="icon" type="image/png" href="favicon.svg">
+    <link rel="apple-touch-icon" href="favicon.svg">
+
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -246,25 +251,7 @@
                 <div class="step">
                     <div class="step__number">2</div>
                     <div class="step__content">
-                        <h3 class="step__title">Or Install via npm</h3>
-                        <div class="code-block">
-                            <div class="code-block__header">
-                                <span class="code-block__title">Terminal</span>
-                                <button class="code-block__copy" data-copy="npm install -g armsforge">
-                                    Copy
-                                </button>
-                            </div>
-                            <code class="code-block__content">
-                                npm install -g armsforge
-                            </code>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="step">
-                    <div class="step__number">3</div>
-                    <div class="step__content">
-                        <h3 class="step__title">Start Using MCP Tools</h3>
+                        <h3 class="step__title">Verify Installation</h3>
                         <div class="code-block">
                             <div class="code-block__header">
                                 <span class="code-block__title">Claude Code</span>
@@ -368,6 +355,94 @@
                     <div class="tool-card__tags">
                         <span class="tag">Info</span>
                         <span class="tag">Metadata</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Usage Examples Section -->
+    <section class="section" id="usage">
+        <div class="container">
+            <h2 class="section__title">Usage Examples</h2>
+            <p class="section__description">
+                Practical examples of using Armsforge within Claude Code
+            </p>
+
+            <div class="usage-grid">
+                <div class="usage-category">
+                    <h3 class="usage-category__title">MCP Tools (Direct in Claude Code)</h3>
+                    <div class="usage-examples">
+                        <div class="usage-example">
+                            <h4 class="usage-example__title">List Available Templates</h4>
+                            <div class="code-block">
+                                <div class="code-block__header">
+                                    <span class="code-block__title">Claude Code</span>
+                                    <button class="code-block__copy" data-copy="af_list_templates">Copy</button>
+                                </div>
+                                <code class="code-block__content">af_list_templates</code>
+                            </div>
+                        </div>
+
+                        <div class="usage-example">
+                            <h4 class="usage-example__title">Generate Buffer Overflow Exploit</h4>
+                            <div class="code-block">
+                                <div class="code-block__header">
+                                    <span class="code-block__title">Claude Code</span>
+                                    <button class="code-block__copy" data-copy='af_get_template name="bof-exploit" target_os="windows" target_arch="x64"'>Copy</button>
+                                </div>
+                                <code class="code-block__content">af_get_template name="bof-exploit" target_os="windows" target_arch="x64"</code>
+                            </div>
+                        </div>
+
+                        <div class="usage-example">
+                            <h4 class="usage-example__title">Analyze Detection Risks</h4>
+                            <div class="code-block">
+                                <div class="code-block__header">
+                                    <span class="code-block__title">Claude Code</span>
+                                    <button class="code-block__copy" data-copy='af_detection_lookup type="suspicious_api" pattern="VirtualAllocEx"'>Copy</button>
+                                </div>
+                                <code class="code-block__content">af_detection_lookup type="suspicious_api" pattern="VirtualAllocEx"</code>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="usage-category">
+                    <h3 class="usage-category__title">Skills (Slash Commands in Claude Code)</h3>
+                    <div class="usage-examples">
+                        <div class="usage-example">
+                            <h4 class="usage-example__title">Exploit Development</h4>
+                            <div class="code-block">
+                                <div class="code-block__header">
+                                    <span class="code-block__title">Claude Code</span>
+                                    <button class="code-block__copy" data-copy="/armsforge:exploit buffer-overflow --target windows --arch x64">Copy</button>
+                                </div>
+                                <code class="code-block__content">/armsforge:exploit buffer-overflow --target windows --arch x64</code>
+                            </div>
+                        </div>
+
+                        <div class="usage-example">
+                            <h4 class="usage-example__title">OPSEC Review</h4>
+                            <div class="code-block">
+                                <div class="code-block__header">
+                                    <span class="code-block__title">Claude Code</span>
+                                    <button class="code-block__copy" data-copy="/armsforge:opsec-review --code ./payload.c --target enterprise">Copy</button>
+                                </div>
+                                <code class="code-block__content">/armsforge:opsec-review --code ./payload.c --target enterprise</code>
+                            </div>
+                        </div>
+
+                        <div class="usage-example">
+                            <h4 class="usage-example__title">Privilege Escalation Research</h4>
+                            <div class="code-block">
+                                <div class="code-block__header">
+                                    <span class="code-block__title">Claude Code</span>
+                                    <button class="code-block__copy" data-copy="/armsforge:privesc --os windows --method service">Copy</button>
+                                </div>
+                                <code class="code-block__content">/armsforge:privesc --os windows --method service</code>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>

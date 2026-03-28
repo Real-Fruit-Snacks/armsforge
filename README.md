@@ -51,16 +51,13 @@ Armsforge delivers comprehensive offensive security capabilities through Claude 
 ### Installation
 
 **Option 1: Claude Code Plugin (Recommended)**
-```bash
-# Search for "Armsforge" in Claude Code plugin settings and click "Install"
+```
+1. Open Claude Code plugin settings
+2. Search for "Armsforge"
+3. Click "Install"
 ```
 
-**Option 2: npm Global Installation**
-```bash
-npm install -g armsforge
-```
-
-**Option 3: Local Development**
+**Option 2: Manual Installation (Development)**
 ```bash
 git clone https://github.com/Real-Fruit-Snacks/armsforge.git
 cd armsforge
@@ -71,15 +68,16 @@ npm run build
 ### Verification
 
 **Test MCP Integration**
-```bash
-# In Claude Code, use MCP tool:
+```
+In Claude Code, use MCP tool:
 af_list_templates
 ```
 
-**Verify CLI Access**
-```bash
-armsforge --version
-af --help
+**Test Skill Integration**
+```
+In Claude Code, use skill commands:
+/armsforge:exploit buffer-overflow
+/armsforge:opsec-review
 ```
 
 ## Usage
@@ -87,43 +85,42 @@ af --help
 ### Template Retrieval
 
 **List Available Templates**
-```bash
-# Via MCP tool
+```
+In Claude Code, use MCP tools:
 af_list_templates
 
-# Via CLI
-af list templates --category exploit
-af list templates --language python --arch x64
+With parameters:
+af_list_templates category="exploit" language="python" arch="x64"
 ```
 
 **Generate Exploit**
-```bash
-# Buffer overflow exploit
+```
+Buffer overflow exploit:
 af_get_template name="bof-exploit" target_os="windows" target_arch="x64"
 
-# Web application exploit
+Web application exploit:
 af_get_template name="sqli-exploit" format="python" evasion_level=2
 ```
 
 ### Snippet Integration
 
 **Code Snippet Retrieval**
-```bash
-# Process injection techniques
+```
+Process injection techniques:
 af_get_snippet name="process-injection" language="csharp"
 
-# Encryption utilities
+Encryption utilities:
 af_get_snippet name="aes-decrypt" language="c"
 ```
 
 ### OPSEC Analysis
 
 **Detection Risk Assessment**
-```bash
-# Analyze suspicious API usage
+```
+Analyze suspicious API usage:
 af_detection_lookup type="suspicious_api" pattern="VirtualAllocEx"
 
-# Check SIEM detection patterns
+Check SIEM detection patterns:
 af_detection_lookup type="sysmon" event_id="1"
 ```
 
@@ -170,15 +167,15 @@ af_detection_lookup type="sysmon" event_id="1"
 
 ### Agent Invocation
 
-**Direct Agent Usage**
-```bash
-# Exploit development consultation
+**Skill-based Agent Usage (in Claude Code)**
+```
+Exploit development consultation:
 /armsforge:exploit buffer-overflow --target windows --arch x64
 
-# OPSEC review
+OPSEC review:
 /armsforge:opsec-review --code ./payload.c --target enterprise
 
-# Privilege escalation research
+Privilege escalation research:
 /armsforge:privesc --os windows --method service
 ```
 

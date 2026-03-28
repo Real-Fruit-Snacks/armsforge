@@ -24,7 +24,7 @@
   </defs>
 
   <!-- Background -->
-  <rect width="800" height="200" fill="#11111b"/>
+  <rect width="800" height="200" fill="#1e1e2e"/>
 
   <!-- Anvil base -->
   <path d="M200 140 L250 140 L260 160 L190 160 Z" fill="url(#anvilGradient)" opacity="0.8"/>
