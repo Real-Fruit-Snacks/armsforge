@@ -1,0 +1,78 @@
+<svg width="800" height="200" viewBox="0 0 800 200" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <!-- Catppuccin Mocha color definitions -->
+    <linearGradient id="titleGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#f38ba8"/>
+      <stop offset="50%" style="stop-color:#cba6f7"/>
+      <stop offset="100%" style="stop-color:#f5c2e7"/>
+    </linearGradient>
+    <linearGradient id="swordGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#fab387"/>
+      <stop offset="100%" style="stop-color:#f9e2af"/>
+    </linearGradient>
+    <linearGradient id="anvilGradient" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#585b70"/>
+      <stop offset="100%" style="stop-color:#45475a"/>
+    </linearGradient>
+    <filter id="glow">
+      <feGaussianBlur stdDeviation="3" result="coloredBlur"/>
+      <feMerge>
+        <feMergeNode in="coloredBlur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+
+  <!-- Background -->
+  <rect width="800" height="200" fill="#11111b"/>
+
+  <!-- Anvil base -->
+  <path d="M200 140 L250 140 L260 160 L190 160 Z" fill="url(#anvilGradient)" opacity="0.8"/>
+  <rect x="210" y="120" width="30" height="20" fill="url(#anvilGradient)" opacity="0.9"/>
+
+  <!-- Sword blade -->
+  <path d="M240 90 L320 40 L330 45 L335 40 L340 45 L350 35 L355 45 L250 100 Z" fill="url(#swordGradient)" filter="url(#glow)"/>
+
+  <!-- Sword handle -->
+  <rect x="220" y="95" width="25" height="8" rx="4" fill="#6c7086"/>
+  <rect x="215" y="90" width="35" height="4" rx="2" fill="#7f849c"/>
+
+  <!-- Sparks/particles -->
+  <circle cx="280" cy="60" r="2" fill="#f9e2af" opacity="0.8">
+    <animate attributeName="opacity" values="0.3;1;0.3" dur="2s" repeatCount="indefinite"/>
+  </circle>
+  <circle cx="300" cy="80" r="1.5" fill="#fab387" opacity="0.6">
+    <animate attributeName="opacity" values="0.2;0.9;0.2" dur="1.5s" repeatCount="indefinite"/>
+  </circle>
+  <circle cx="260" cy="85" r="1" fill="#f9e2af" opacity="0.7">
+    <animate attributeName="opacity" values="0.4;1;0.4" dur="1.8s" repeatCount="indefinite"/>
+  </circle>
+
+  <!-- Main title -->
+  <text x="400" y="80" font-family="Inter, system-ui, sans-serif" font-size="48" font-weight="700"
+        fill="url(#titleGradient)" text-anchor="middle" filter="url(#glow)">
+    Armsforge
+  </text>
+
+  <!-- Subtitle -->
+  <text x="400" y="110" font-family="Inter, system-ui, sans-serif" font-size="16" font-weight="500"
+        fill="#bac2de" text-anchor="middle" opacity="0.9">
+    OFFENSIVE SECURITY TOOLKIT
+  </text>
+
+  <!-- Decorative elements -->
+  <path d="M150 100 L600 100" stroke="#313244" stroke-width="1" opacity="0.5"/>
+  <path d="M180 120 L570 120" stroke="#313244" stroke-width="1" opacity="0.3"/>
+
+  <!-- Side accent elements -->
+  <circle cx="120" cy="100" r="3" fill="#f38ba8" opacity="0.6"/>
+  <circle cx="680" cy="100" r="3" fill="#cba6f7" opacity="0.6"/>
+  <circle cx="100" cy="120" r="2" fill="#f5c2e7" opacity="0.5"/>
+  <circle cx="700" cy="120" r="2" fill="#89b4fa" opacity="0.5"/>
+
+  <!-- Terminal-style decorative corners -->
+  <path d="M50 50 L50 30 L70 30" stroke="#585b70" stroke-width="2" fill="none" opacity="0.4"/>
+  <path d="M750 50 L750 30 L730 30" stroke="#585b70" stroke-width="2" fill="none" opacity="0.4"/>
+  <path d="M50 150 L50 170 L70 170" stroke="#585b70" stroke-width="2" fill="none" opacity="0.4"/>
+  <path d="M750 150 L750 170 L730 170" stroke="#585b70" stroke-width="2" fill="none" opacity="0.4"/>
+</svg>

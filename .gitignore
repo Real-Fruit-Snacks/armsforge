@@ -1,0 +1,313 @@
+# ===========================================
+# Armsforge .gitignore - Production Ready
+# Only essential files for public repository
+# ===========================================
+
+# ===========================================
+# AI & Machine Learning Files
+# ===========================================
+*.ai
+*.model
+*.pkl
+*.h5
+*.pb
+*.onnx
+*.tflite
+*.pt
+*.pth
+.anthropic/
+.claude/
+.openai/
+**/*claude*/**
+**/*anthropic*/**
+**/*openai*/**
+**/*ai-*
+**/*-ai*
+.langchain/
+.huggingface/
+embeddings/
+models/
+checkpoints/
+training_data/
+*.safetensors
+*.bin
+
+# ===========================================
+# Development & Build Artifacts
+# ===========================================
+node_modules/
+dist/
+build/
+out/
+coverage/
+.nyc_output/
+*.tsbuildinfo
+*.buildinfo
+.cache/
+.parcel-cache/
+.next/
+.nuxt/
+.vite/
+.rollup.cache/
+.webpack/
+.turbo/
+
+# ===========================================
+# Package Manager Files
+# ===========================================
+package-lock.json
+yarn.lock
+pnpm-lock.yaml
+.pnpm-debug.log*
+.yarn/
+.pnp.*
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+lerna-debug.log*
+.npmrc
+
+# ===========================================
+# Environment & Configuration
+# ===========================================
+.env*
+!.env.example
+.envrc
+config/local.*
+config/development.*
+config/production.*
+local.settings.json
+appsettings.Development.json
+secrets.*
+credentials.*
+keys/
+certs/
+*.key
+*.pem
+*.p12
+*.pfx
+
+# ===========================================
+# IDE & Editor Files
+# ===========================================
+.vscode/
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+.idea/
+*.swp
+*.swo
+*~
+.project
+.classpath
+.c9/
+*.launch
+.settings/
+.metadata
+.recommenders
+
+# ===========================================
+# Operating System Files
+# ===========================================
+# Windows
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+$RECYCLE.BIN/
+*.cab
+*.msi
+*.msm
+*.msp
+*.lnk
+
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+Icon
+._*
+.DocumentRevisions-V100
+.fseventsd
+.Spotlight-V100
+.TemporaryItems
+.Trashes
+.VolumeIcon.icns
+.com.apple.timemachine.donotpresent
+.AppleDB
+.AppleDesktop
+Network Trash Folder
+Temporary Items
+.apdisk
+
+# Linux
+*~
+.directory
+.Trash-*
+.nfs*
+
+# ===========================================
+# Test & Coverage Files
+# ===========================================
+coverage/
+.coverage
+.nyc_output/
+junit.xml
+test-results.xml
+*.lcov
+.jest/
+test_output/
+test-reports/
+allure-results/
+allure-reports/
+cypress/videos/
+cypress/screenshots/
+playwright-report/
+test-results/
+
+# ===========================================
+# Logs & Temporary Files
+# ===========================================
+logs/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+lerna-debug.log*
+pids/
+*.pid
+*.seed
+*.pid.lock
+lib-cov/
+tmp/
+temp/
+.tmp/
+.temp/
+*.tmp
+*.temp
+.sass-cache/
+.grunt/
+.bower_cache/
+
+# ===========================================
+# Security & Audit Files
+# ===========================================
+.armsforge*/
+.omc/
+.ultraqa*/
+**/*security*/**
+**/*audit*/**
+**/*pentest*/**
+**/*redteam*/**
+vulnerability-report.*
+security-scan.*
+audit-report.*
+penetration-test.*
+*.audit
+*.vuln
+
+# ===========================================
+# Version Control & Backup
+# ===========================================
+.git/
+.svn/
+.hg/
+.bzr/
+*.orig
+*.bak
+*.backup
+*~
+.#*
+*.rej
+*.patch
+
+# ===========================================
+# Documentation Build
+# ===========================================
+_site/
+.jekyll-cache/
+.jekyll-metadata
+.docusaurus/
+.vuepress/dist/
+docs/.vuepress/dist/
+.gitbook/
+
+# ===========================================
+# Miscellaneous
+# ===========================================
+*.pid
+*.seed
+*.gz
+*.tgz
+*.tar.gz
+*.zip
+*.7z
+*.rar
+*.iso
+*.dmg
+*.app
+*.deb
+*.rpm
+.lock-wscript
+.wafpickle-*
+.lock-wscript
+jsconfig.json
+
+# ===========================================
+# Project-Specific Exclusions
+# ===========================================
+# Development tools
+.prettierrc.local
+.eslintrc.local
+tsconfig.local.json
+vitest.config.local.ts
+
+# Local development
+bridge/cli.local.cjs
+src/**/*.local.*
+test/**/*.local.*
+
+# Research & development
+research/
+experiments/
+prototypes/
+sandbox/
+playground/
+
+# Generated content
+generated/
+auto-generated/
+.generated/
+
+# Personal notes and docs
+NOTES.md
+TODO.md
+ROADMAP.md
+.personal/
+docs/personal/
+docs/internal/
+
+# Internal development files
+AUDIT_*.md
+ULTRAQA_*.md
+*AUDIT*.md
+*SECURITY-COVERAGE*.md
+*_REPORT.md
+*_PROGRESS.md
+*_COMPLETE.md
+internal/
+.internal/
+
+# ===========================================
+# Only Allow Essential Files
+# ===========================================
+# Core application files (allowed by not being ignored)
+# - src/ (source code)
+# - docs/ (public documentation and website)
+# - data/ (templates, snippets, detection patterns)
+# - test/ (test suites)
+# - scripts/ (build and utility scripts)
+# - bridge/ (CLI bridge - main files only)
+# - package.json, tsconfig.json, etc. (configuration)
+# - README.md, LICENSE, CONTRIBUTING.md (documentation)
+# - .mcp.json, .claude-plugin (integration files)

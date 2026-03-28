@@ -1,0 +1,496 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Armsforge - Offensive Security Toolkit for Claude Code</title>
+    <meta name="description" content="Professional offensive security toolkit for red team operations, OSCP/OSEP preparation, and penetration testing with Claude Code integration">
+    <meta name="keywords" content="offensive security, red team, penetration testing, OSCP, OSEP, Claude Code, security toolkit">
+
+    <!-- Open Graph -->
+    <meta property="og:title" content="Armsforge - Offensive Security Toolkit">
+    <meta property="og:description" content="Professional toolkit for red team operations and security research">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://Real-Fruit-Snacks.github.io/armsforge/">
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+
+    <!-- Styles -->
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="nav" id="navbar">
+        <div class="nav__container">
+            <a href="#" class="nav__logo">
+                <span class="nav__logo-icon">⚔️</span>
+                <span class="nav__logo-text">Armsforge</span>
+            </a>
+
+            <ul class="nav__links" id="nav-links">
+                <li><a href="#features" class="nav__link">Features</a></li>
+                <li><a href="#installation" class="nav__link">Installation</a></li>
+                <li><a href="#tools" class="nav__link">Tools</a></li>
+                <li><a href="#agents" class="nav__link">Agents</a></li>
+                <li><a href="https://github.com/Real-Fruit-Snacks/armsforge" class="nav__link nav__link--external">GitHub</a></li>
+            </ul>
+
+            <button class="nav__hamburger" id="nav-hamburger" aria-label="Toggle menu">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+        </div>
+
+        <!-- Mobile overlay -->
+        <div class="nav__overlay" id="nav-overlay">
+            <ul class="nav__overlay-links">
+                <li><a href="#features" class="nav__overlay-link">Features</a></li>
+                <li><a href="#installation" class="nav__overlay-link">Installation</a></li>
+                <li><a href="#tools" class="nav__overlay-link">Tools</a></li>
+                <li><a href="#agents" class="nav__overlay-link">Agents</a></li>
+                <li><a href="https://github.com/Real-Fruit-Snacks/armsforge" class="nav__overlay-link">GitHub</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <main class="hero" id="hero">
+        <div class="hero__container">
+            <div class="hero__content">
+                <div class="hero__badges">
+                    <span class="badge badge--primary">Offensive Security</span>
+                    <span class="badge badge--secondary">Claude Code Integration</span>
+                </div>
+
+                <h1 class="hero__title">
+                    <span class="hero__title-main">Professional</span>
+                    <span class="hero__title-accent">Red Team Toolkit</span>
+                    <span class="hero__title-sub">for Security Researchers</span>
+                </h1>
+
+                <p class="hero__description">
+                    Armsforge is a comprehensive offensive security toolkit designed for red team operations,
+                    OSCP/OSEP preparation, and advanced penetration testing. Seamlessly integrated with Claude Code
+                    for intelligent exploit development and security research.
+                </p>
+
+                <div class="hero__stats">
+                    <div class="stat">
+                        <span class="stat__number" data-count="50">50+</span>
+                        <span class="stat__label">Templates</span>
+                    </div>
+                    <div class="stat">
+                        <span class="stat__number" data-count="25">25+</span>
+                        <span class="stat__label">Snippets</span>
+                    </div>
+                    <div class="stat">
+                        <span class="stat__number" data-count="15">15+</span>
+                        <span class="stat__label">Agents</span>
+                    </div>
+                </div>
+
+                <div class="hero__actions">
+                    <a href="#installation" class="btn btn--primary">Get Started</a>
+                    <a href="https://github.com/Real-Fruit-Snacks/armsforge" class="btn btn--secondary">View on GitHub</a>
+                </div>
+            </div>
+
+            <div class="hero__illustration">
+                <div class="floating-card floating-card--1">
+                    <span class="floating-card__icon">🛡️</span>
+                    <span class="floating-card__text">Buffer Overflow</span>
+                </div>
+                <div class="floating-card floating-card--2">
+                    <span class="floating-card__icon">🔓</span>
+                    <span class="floating-card__text">Privilege Escalation</span>
+                </div>
+                <div class="floating-card floating-card--3">
+                    <span class="floating-card__icon">💉</span>
+                    <span class="floating-card__text">Code Injection</span>
+                </div>
+                <div class="floating-card floating-card--4">
+                    <span class="floating-card__icon">🎯</span>
+                    <span class="floating-card__text">Target Recon</span>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Features Section -->
+    <section class="section" id="features">
+        <div class="container">
+            <h2 class="section__title">Offensive Security Features</h2>
+            <p class="section__description">
+                Comprehensive toolkit for professional red team operations and security research
+            </p>
+
+            <div class="features-grid">
+                <div class="premium-card">
+                    <div class="premium-card__icon">🥷</div>
+                    <h3 class="premium-card__title">Exploit Development</h3>
+                    <p class="premium-card__description">
+                        Buffer overflows, format string attacks, web exploits, and deserialization vulnerabilities with automated shellcode generation.
+                    </p>
+                    <ul class="premium-card__features">
+                        <li>Stack & heap overflows</li>
+                        <li>ROP chain automation</li>
+                        <li>Custom shellcode</li>
+                        <li>Bypass techniques</li>
+                    </ul>
+                </div>
+
+                <div class="premium-card">
+                    <div class="premium-card__icon">🚀</div>
+                    <h3 class="premium-card__title">Payload Engineering</h3>
+                    <p class="premium-card__description">
+                        Advanced payload generation with evasion techniques, custom encoders, and multi-stage delivery systems.
+                    </p>
+                    <ul class="premium-card__features">
+                        <li>AV/EDR evasion</li>
+                        <li>Custom encoders</li>
+                        <li>Staged payloads</li>
+                        <li>Living off the land</li>
+                    </ul>
+                </div>
+
+                <div class="premium-card">
+                    <div class="premium-card__icon">🤖</div>
+                    <h3 class="premium-card__title">Implant Development</h3>
+                    <p class="premium-card__description">
+                        C2 implants, beacons, and persistence mechanisms with advanced communication channels and stealth features.
+                    </p>
+                    <ul class="premium-card__features">
+                        <li>C2 frameworks</li>
+                        <li>Persistence modules</li>
+                        <li>Stealth techniques</li>
+                        <li>Communication channels</li>
+                    </ul>
+                </div>
+
+                <div class="premium-card">
+                    <div class="premium-card__icon">🔍</div>
+                    <h3 class="premium-card__title">OPSEC Analysis</h3>
+                    <p class="premium-card__description">
+                        Comprehensive operational security review with detection risk analysis and signature identification.
+                    </p>
+                    <ul class="premium-card__features">
+                        <li>Detection analysis</li>
+                        <li>Signature review</li>
+                        <li>OPSEC scoring</li>
+                        <li>Mitigation guidance</li>
+                    </ul>
+                </div>
+
+                <div class="premium-card">
+                    <div class="premium-card__icon">📚</div>
+                    <h3 class="premium-card__title">OSCP/OSEP Prep</h3>
+                    <p class="premium-card__description">
+                        Structured methodologies and checklists for OSCP and OSEP certification preparation and exam success.
+                    </p>
+                    <ul class="premium-card__features">
+                        <li>Exam methodologies</li>
+                        <li>Practice labs</li>
+                        <li>Privilege escalation</li>
+                        <li>Report templates</li>
+                    </ul>
+                </div>
+
+                <div class="premium-card">
+                    <div class="premium-card__icon">⚡</div>
+                    <h3 class="premium-card__title">Claude Integration</h3>
+                    <p class="premium-card__description">
+                        Seamless integration with Claude Code for intelligent code generation, automated testing, and research assistance.
+                    </p>
+                    <ul class="premium-card__features">
+                        <li>AI-powered development</li>
+                        <li>Automated testing</li>
+                        <li>Smart debugging</li>
+                        <li>Research assistance</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Installation Section -->
+    <section class="section section--dark" id="installation">
+        <div class="container">
+            <h2 class="section__title">Quick Installation</h2>
+            <p class="section__description">
+                Get started with Armsforge in minutes
+            </p>
+
+            <div class="installation-steps">
+                <div class="step">
+                    <div class="step__number">1</div>
+                    <div class="step__content">
+                        <h3 class="step__title">Install via Claude Code Plugin</h3>
+                        <div class="code-block">
+                            <div class="code-block__header">
+                                <span class="code-block__title">Claude Code Plugin Marketplace</span>
+                                <button class="code-block__copy" data-copy="Search for 'Armsforge' in Claude Code plugin settings and click 'Install'">
+                                    Copy
+                                </button>
+                            </div>
+                            <code class="code-block__content">
+                                Search for "Armsforge" in Claude Code plugin settings and click "Install"
+                            </code>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="step">
+                    <div class="step__number">2</div>
+                    <div class="step__content">
+                        <h3 class="step__title">Or Install via npm</h3>
+                        <div class="code-block">
+                            <div class="code-block__header">
+                                <span class="code-block__title">Terminal</span>
+                                <button class="code-block__copy" data-copy="npm install -g armsforge">
+                                    Copy
+                                </button>
+                            </div>
+                            <code class="code-block__content">
+                                npm install -g armsforge
+                            </code>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="step">
+                    <div class="step__number">3</div>
+                    <div class="step__content">
+                        <h3 class="step__title">Start Using MCP Tools</h3>
+                        <div class="code-block">
+                            <div class="code-block__header">
+                                <span class="code-block__title">Claude Code</span>
+                                <button class="code-block__copy" data-copy="af_list_templates">
+                                    Copy
+                                </button>
+                            </div>
+                            <code class="code-block__content">
+                                Use MCP tool: af_list_templates
+                            </code>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="warning-box">
+                <div class="warning-box__icon">⚠️</div>
+                <div class="warning-box__content">
+                    <h4>Legal Notice</h4>
+                    <p>Armsforge is designed for authorized security testing, research, and educational purposes only. Users are responsible for ensuring compliance with all applicable laws and regulations. Use only in environments you own or have explicit permission to test.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Tools Section -->
+    <section class="section" id="tools">
+        <div class="container">
+            <h2 class="section__title">MCP Tools</h2>
+            <p class="section__description">
+                Powerful Model Context Protocol tools for security research
+            </p>
+
+            <div class="tools-grid">
+                <div class="tool-card">
+                    <div class="tool-card__header">
+                        <span class="tool-card__icon">📋</span>
+                        <h3 class="tool-card__title">af_list_templates</h3>
+                    </div>
+                    <p class="tool-card__description">Browse available exploit templates and payloads</p>
+                    <div class="tool-card__tags">
+                        <span class="tag">Templates</span>
+                        <span class="tag">Browse</span>
+                    </div>
+                </div>
+
+                <div class="tool-card">
+                    <div class="tool-card__header">
+                        <span class="tool-card__icon">🎯</span>
+                        <h3 class="tool-card__title">af_get_template</h3>
+                    </div>
+                    <p class="tool-card__description">Retrieve specific exploit templates with customization options</p>
+                    <div class="tool-card__tags">
+                        <span class="tag">Exploits</span>
+                        <span class="tag">Generation</span>
+                    </div>
+                </div>
+
+                <div class="tool-card">
+                    <div class="tool-card__header">
+                        <span class="tool-card__icon">🔧</span>
+                        <h3 class="tool-card__title">af_list_snippets</h3>
+                    </div>
+                    <p class="tool-card__description">Access reusable code snippets for common techniques</p>
+                    <div class="tool-card__tags">
+                        <span class="tag">Snippets</span>
+                        <span class="tag">Reusable</span>
+                    </div>
+                </div>
+
+                <div class="tool-card">
+                    <div class="tool-card__header">
+                        <span class="tool-card__icon">📡</span>
+                        <h3 class="tool-card__title">af_get_snippet</h3>
+                    </div>
+                    <p class="tool-card__description">Retrieve specific code snippets for integration</p>
+                    <div class="tool-card__tags">
+                        <span class="tag">Code</span>
+                        <span class="tag">Integration</span>
+                    </div>
+                </div>
+
+                <div class="tool-card">
+                    <div class="tool-card__header">
+                        <span class="tool-card__icon">🛡️</span>
+                        <h3 class="tool-card__title">af_detection_lookup</h3>
+                    </div>
+                    <p class="tool-card__description">Analyze detection patterns and evasion techniques</p>
+                    <div class="tool-card__tags">
+                        <span class="tag">OPSEC</span>
+                        <span class="tag">Detection</span>
+                    </div>
+                </div>
+
+                <div class="tool-card">
+                    <div class="tool-card__header">
+                        <span class="tool-card__icon">📊</span>
+                        <h3 class="tool-card__title">af_template_info</h3>
+                    </div>
+                    <p class="tool-card__description">Get detailed information about template capabilities</p>
+                    <div class="tool-card__tags">
+                        <span class="tag">Info</span>
+                        <span class="tag">Metadata</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Agents Section -->
+    <section class="section section--dark" id="agents">
+        <div class="container">
+            <h2 class="section__title">Specialized Agents</h2>
+            <p class="section__description">
+                Expert AI agents for every aspect of offensive security
+            </p>
+
+            <div class="agents-grid">
+                <div class="agent-tier">
+                    <h3 class="agent-tier__title">Core Development</h3>
+                    <div class="agent-cards">
+                        <div class="agent-card">
+                            <div class="agent-card__icon">💥</div>
+                            <h4 class="agent-card__name">exploit-dev</h4>
+                            <p class="agent-card__description">Buffer overflows, web exploits, format strings, deserialization attacks</p>
+                        </div>
+                        <div class="agent-card">
+                            <div class="agent-card__icon">🚀</div>
+                            <h4 class="agent-card__name">payload-eng</h4>
+                            <p class="agent-card__description">Shellcode, stagers, loaders, encoders, multi-stage payloads</p>
+                        </div>
+                        <div class="agent-card">
+                            <div class="agent-card__icon">🤖</div>
+                            <h4 class="agent-card__name">implant-dev</h4>
+                            <p class="agent-card__description">C2 implants, beacons, persistence mechanisms</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="agent-tier">
+                    <h3 class="agent-tier__title">Security Analysis</h3>
+                    <div class="agent-cards">
+                        <div class="agent-card">
+                            <div class="agent-card__icon">🔍</div>
+                            <h4 class="agent-card__name">opsec-reviewer</h4>
+                            <p class="agent-card__description">Detection risk analysis, AV/EDR evasion review</p>
+                        </div>
+                        <div class="agent-card">
+                            <div class="agent-card__icon">📋</div>
+                            <h4 class="agent-card__name">finding-writer</h4>
+                            <p class="agent-card__description">Pentest finding documentation and reporting</p>
+                        </div>
+                        <div class="agent-card">
+                            <div class="agent-card__icon">⬆️</div>
+                            <h4 class="agent-card__name">privesc-analyst</h4>
+                            <p class="agent-card__description">Privilege escalation vectors for exam prep</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer__content">
+                <div class="footer__brand">
+                    <div class="footer__logo">
+                        <span class="footer__logo-icon">⚔️</span>
+                        <span class="footer__logo-text">Armsforge</span>
+                    </div>
+                    <p class="footer__description">
+                        Professional offensive security toolkit for red team operations and security research.
+                    </p>
+                </div>
+
+                <div class="footer__links">
+                    <div class="footer__column">
+                        <h4 class="footer__title">Resources</h4>
+                        <ul class="footer__list">
+                            <li><a href="#" class="footer__link">Documentation</a></li>
+                            <li><a href="#" class="footer__link">Templates</a></li>
+                            <li><a href="#" class="footer__link">Snippets</a></li>
+                            <li><a href="#" class="footer__link">Examples</a></li>
+                        </ul>
+                    </div>
+
+                    <div class="footer__column">
+                        <h4 class="footer__title">Community</h4>
+                        <ul class="footer__list">
+                            <li><a href="https://github.com/Real-Fruit-Snacks/armsforge" class="footer__link">GitHub</a></li>
+                            <li><a href="#" class="footer__link">Issues</a></li>
+                            <li><a href="#" class="footer__link">Discussions</a></li>
+                            <li><a href="#" class="footer__link">Contributing</a></li>
+                        </ul>
+                    </div>
+
+                    <div class="footer__column">
+                        <h4 class="footer__title">Legal</h4>
+                        <ul class="footer__list">
+                            <li><a href="#" class="footer__link">License</a></li>
+                            <li><a href="#" class="footer__link">Security Policy</a></li>
+                            <li><a href="#" class="footer__link">Responsible Use</a></li>
+                            <li><a href="#" class="footer__link">Disclaimer</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="footer__bottom">
+                <p class="footer__copyright">
+                    © 2024 Armsforge. Licensed under MIT. For authorized security testing only.
+                </p>
+                <div class="footer__social">
+                    <a href="https://github.com/Real-Fruit-Snacks/armsforge" class="footer__social-link" aria-label="GitHub">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
+                        </svg>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="js/main.js"></script>
+</body>
+</html>

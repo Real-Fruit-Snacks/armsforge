@@ -1,0 +1,145 @@
+{
+  "description": "Key ETW providers that log offensive activities",
+  "providers": [
+    {
+      "name": "Microsoft-Windows-Kernel-Process",
+      "guid": "{22FB2CD6-0E7B-422B-A0C7-2FAD1FD0E716}",
+      "description": "Process and thread creation/termination",
+      "offensive_relevance": "Logs process creation, thread creation, process exit. Can detect unusual parent-child relationships and short-lived processes.",
+      "logged_activities": [
+        "Process creation with full command line",
+        "Thread creation in other processes (injection)",
+        "Process termination patterns"
+      ]
+    },
+    {
+      "name": "Microsoft-Windows-Threat-Intelligence",
+      "guid": "{F4E1897C-BB5D-5668-F1D8-040F4D8DD344}",
+      "description": "Threat intelligence events (Defender integration)",
+      "offensive_relevance": "High-fidelity detection of malicious patterns. Triggers on known attack techniques.",
+      "logged_activities": [
+        "Known malicious API patterns",
+        "Suspicious memory allocations",
+        "Process hollowing detection",
+        "Reflective DLL loading"
+      ],
+      "evasion_notes": "Hardest to evade. Uses ML and behavioral analysis."
+    },
+    {
+      "name": "Microsoft-Windows-PowerShell",
+      "guid": "{A0C1853B-5C40-4B15-8766-3CF1C58F985A}",
+      "description": "PowerShell execution logging",
+      "offensive_relevance": "Logs all PowerShell activity including script block content.",
+      "logged_activities": [
+        "PowerShell command execution",
+        "Script block content (obfuscated or not)",
+        "Module loading",
+        "PowerShell pipeline execution"
+      ],
+      "evasion_notes": "Script block logging captures everything. Use C# or alternative execution methods."
+    },
+    {
+      "name": "Microsoft-Windows-DotNETRuntime",
+      "guid": "{E13C0D23-CCBC-4E12-931B-D9CC2EEE27E4}",
+      "description": ".NET runtime events",
+      "offensive_relevance": "Logs .NET assembly loading, JIT compilation, GC events.",
+      "logged_activities": [
+        "Assembly loading from memory (Assembly.Load)",
+        ".NET method JIT compilation",
+        "Reflection usage patterns"
+      ]
+    },
+    {
+      "name": "Microsoft-Windows-Kernel-Network",
+      "guid": "{7DD42A49-5329-4832-8DFD-43D979153A88}",
+      "description": "Network connection events",
+      "offensive_relevance": "Logs network connections with process context.",
+      "logged_activities": [
+        "TCP/UDP connection establishment",
+        "Process-to-connection mapping",
+        "Connection termination"
+      ]
+    },
+    {
+      "name": "Microsoft-Windows-Security-Auditing",
+      "guid": "{54849625-5478-4994-A5BA-3E3B0328C30D}",
+      "description": "Security audit events (replaces Security event log)",
+      "offensive_relevance": "High-privilege operations, authentication events.",
+      "logged_activities": [
+        "Token manipulation",
+        "Privilege escalation",
+        "Authentication events",
+        "Security descriptor changes"
+      ]
+    },
+    {
+      "name": "Microsoft-Windows-WMI-Activity",
+      "guid": "{1418EF04-B0B4-4623-BF7E-D74AB47BBDAA}",
+      "description": "WMI operation logging",
+      "offensive_relevance": "WMI is heavily used for persistence and lateral movement.",
+      "logged_activities": [
+        "WMI query execution",
+        "WMI event consumer creation",
+        "WMI process creation (Win32_Process.Create)",
+        "WMI persistence mechanisms"
+      ]
+    },
+    {
+      "name": "Microsoft-Windows-DNS-Client",
+      "guid": "{1C95126E-7EEA-49A9-A3FE-A378B03DDB4D}",
+      "description": "DNS client queries",
+      "offensive_relevance": "DNS tunneling, C2 domain resolution, DGA detection.",
+      "logged_activities": [
+        "DNS query requests and responses",
+        "Query timing patterns",
+        "Unusual domain patterns"
+      ]
+    },
+    {
+      "name": "Microsoft-Windows-TCPIP",
+      "guid": "{2F07E2EE-15DB-40F1-90EF-9D7BA282188A}",
+      "description": "TCP/IP stack events",
+      "offensive_relevance": "Network connection details, packet-level information.",
+      "logged_activities": [
+        "Connection establishment/termination",
+        "Send/receive operations",
+        "Network error conditions"
+      ]
+    },
+    {
+      "name": "Microsoft-Windows-RPC-Events",
+      "guid": "{6AD52B32-D609-4BE9-AE07-CE8DAE937E39}",
+      "description": "RPC (Remote Procedure Call) events",
+      "offensive_relevance": "RPC is used for lateral movement (WMI, DCOM, Services).",
+      "logged_activities": [
+        "RPC method invocations",
+        "Cross-machine RPC calls",
+        "RPC authentication events"
+      ]
+    }
+  ],
+  "bypass_techniques": [
+    {
+      "technique": "ETW Patching",
+      "description": "Patch EtwEventWrite in ntdll to prevent events from being written",
+      "detection_risk": "High - modifying system DLLs is very suspicious",
+      "implementation": "Hook/patch ntdll!EtwEventWrite to return early"
+    },
+    {
+      "technique": "Provider Unregistration",
+      "description": "Unregister specific ETW providers to stop logging",
+      "detection_risk": "High - requires admin privileges and is easily detected",
+      "implementation": "Use EventUnregister API or direct registry manipulation"
+    },
+    {
+      "technique": "Log Evasion",
+      "description": "Use techniques that don't trigger high-fidelity providers",
+      "detection_risk": "Low-Medium - depends on technique",
+      "examples": [
+        "Direct syscalls instead of Win32 APIs",
+        "Manual PE parsing instead of LoadLibrary",
+        "Callback-based execution instead of CreateRemoteThread"
+      ]
+    }
+  ]
+}

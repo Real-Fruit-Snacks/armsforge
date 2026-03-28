@@ -1,0 +1,22 @@
+{
+  "description": "Armsforge offensive dev IDE hooks",
+  "hooks": {
+    "UserPromptSubmit": [
+      {
+        "matcher": "*",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node \"${CLAUDE_PLUGIN_ROOT}/scripts/workflow-enforcer.mjs\"",
+            "timeout": 5
+          },
+          {
+            "type": "command",
+            "command": "node \"${CLAUDE_PLUGIN_ROOT}/scripts/keyword-detector.mjs\"",
+            "timeout": 5
+          }
+        ]
+      }
+    ]
+  }
+}

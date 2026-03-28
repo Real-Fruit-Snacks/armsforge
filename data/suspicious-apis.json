@@ -1,0 +1,170 @@
+{
+  "description": "Windows APIs that commonly trigger EDR/AV detection when used in suspicious patterns",
+  "categories": {
+    "process_injection": {
+      "description": "APIs used for process injection techniques",
+      "apis": [
+        {
+          "name": "VirtualAllocEx",
+          "risk": "high",
+          "description": "Allocates memory in another process. When combined with WriteProcessMemory + CreateRemoteThread = classic injection pattern.",
+          "detection_patterns": [
+            "VirtualAllocEx → WriteProcessMemory → CreateRemoteThread sequence",
+            "PAGE_EXECUTE_READWRITE permissions on cross-process allocation"
+          ],
+          "evasion_notes": "Use VirtualProtectEx to change from RW to RX after writing. Consider alternative allocation methods."
+        },
+        {
+          "name": "WriteProcessMemory",
+          "risk": "high",
+          "description": "Writes data to another process memory space.",
+          "detection_patterns": [
+            "Writing executable code patterns to other processes",
+            "Large writes to recently allocated memory"
+          ]
+        },
+        {
+          "name": "CreateRemoteThread",
+          "risk": "critical",
+          "description": "Creates thread in another process. Heavily monitored by EDR.",
+          "detection_patterns": [
+            "Thread creation pointing to recently written memory",
+            "Threads created in system processes (explorer.exe, winlogon.exe)"
+          ],
+          "alternatives": ["QueueUserAPC", "NtCreateThreadEx", "SetWindowsHookEx"]
+        },
+        {
+          "name": "NtMapViewOfSection",
+          "risk": "medium",
+          "description": "Maps section into process address space. Used in advanced injection.",
+          "detection_patterns": [
+            "Mapping executable sections into other processes"
+          ]
+        },
+        {
+          "name": "QueueUserAPC",
+          "risk": "medium",
+          "description": "Alternative to CreateRemoteThread, queues APC to thread.",
+          "detection_patterns": [
+            "APC queued to threads in other processes",
+            "APC pointing to shellcode-like memory"
+          ]
+        }
+      ]
+    },
+    "memory_manipulation": {
+      "description": "Memory allocation and protection APIs",
+      "apis": [
+        {
+          "name": "VirtualAlloc",
+          "risk": "medium",
+          "description": "Allocates virtual memory. RWX allocations are suspicious.",
+          "detection_patterns": [
+            "PAGE_EXECUTE_READWRITE allocations",
+            "Large allocations (>1MB) with execute permissions"
+          ],
+          "evasion_notes": "Allocate as RW, write shellcode, then VirtualProtect to RX"
+        },
+        {
+          "name": "VirtualProtect",
+          "risk": "low",
+          "description": "Changes memory protection. Less suspicious than RWX allocation.",
+          "detection_patterns": [
+            "Changing memory from RW to RX on heap allocations",
+            "Frequent protection changes on same memory region"
+          ]
+        },
+        {
+          "name": "HeapCreate",
+          "risk": "low",
+          "description": "Creates private heap with executable permissions.",
+          "detection_patterns": [
+            "HEAP_CREATE_ENABLE_EXECUTE flag usage"
+          ]
+        }
+      ]
+    },
+    "process_manipulation": {
+      "description": "APIs for process creation and manipulation",
+      "apis": [
+        {
+          "name": "CreateProcessA/W",
+          "risk": "medium",
+          "description": "Creates new process. Suspicious when combined with injection.",
+          "detection_patterns": [
+            "CREATE_SUSPENDED flag with subsequent injection",
+            "Creating processes with unusual parent-child relationships"
+          ]
+        },
+        {
+          "name": "OpenProcess",
+          "risk": "medium",
+          "description": "Opens handle to existing process.",
+          "detection_patterns": [
+            "PROCESS_ALL_ACCESS or high-privilege access to system processes",
+            "Opening multiple processes in sequence (process enumeration)"
+          ]
+        },
+        {
+          "name": "ResumeThread",
+          "risk": "low",
+          "description": "Resumes suspended thread. Part of process hollowing.",
+          "detection_patterns": [
+            "Resuming threads after memory modifications"
+          ]
+        }
+      ]
+    },
+    "anti_analysis": {
+      "description": "APIs commonly used for evasion and anti-analysis",
+      "apis": [
+        {
+          "name": "IsDebuggerPresent",
+          "risk": "low",
+          "description": "Detects if debugger is attached.",
+          "detection_patterns": [
+            "Anti-debugging checks in malware"
+          ]
+        },
+        {
+          "name": "SetUnhandledExceptionFilter",
+          "risk": "medium",
+          "description": "Sets exception handler. Used in anti-debugging.",
+          "detection_patterns": [
+            "Custom exception handlers in suspicious processes"
+          ]
+        },
+        {
+          "name": "OutputDebugStringA/W",
+          "risk": "low",
+          "description": "Can be used for anti-debugging tricks.",
+          "detection_patterns": [
+            "Using OutputDebugString in anti-debug schemes"
+          ]
+        }
+      ]
+    },
+    "crypto_apis": {
+      "description": "Cryptography APIs used for payload encryption/obfuscation",
+      "apis": [
+        {
+          "name": "CryptDecrypt",
+          "risk": "low",
+          "description": "Decrypts data. Indicates encrypted payloads.",
+          "detection_patterns": [
+            "Decrypting large amounts of data before execution",
+            "Runtime decryption of PE headers"
+          ]
+        },
+        {
+          "name": "CryptAcquireContext",
+          "risk": "low",
+          "description": "Acquires crypto context for encryption/decryption.",
+          "detection_patterns": [
+            "Crypto operations on executable memory regions"
+          ]
+        }
+      ]
+    }
+  }
+}

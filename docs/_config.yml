@@ -1,0 +1,53 @@
+# GitHub Pages Configuration for Armsforge
+# Offensive Security Toolkit for Claude Code
+
+# Site settings
+title: "Armsforge - Offensive Security Toolkit"
+description: "Professional red team toolkit for security research and OSCP/OSEP preparation"
+url: "https://Real-Fruit-Snacks.github.io/armsforge"
+baseurl: ""
+
+# Build settings
+markdown: kramdown
+highlighter: rouge
+sass:
+  style: compressed
+
+# GitHub Pages settings
+plugins:
+  - jekyll-feed
+  - jekyll-sitemap
+  - jekyll-seo-tag
+
+# Exclude from processing
+exclude:
+  - node_modules
+  - package*.json
+  - README.md
+  - LICENSE
+  - .gitignore
+  - src/
+  - test/
+  - scripts/
+  - .omc/
+
+# Security headers (for GitHub Pages)
+include:
+  - _headers
+
+# Collections (if needed for future content organization)
+collections:
+  templates:
+    output: false
+  snippets:
+    output: false
+  agents:
+    output: false
+
+# Default front matter
+defaults:
+  - scope:
+      path: ""
+    values:
+      layout: default
+      author: "Armsforge Team"

