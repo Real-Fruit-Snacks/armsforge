@@ -233,16 +233,19 @@
                 <div class="step">
                     <div class="step__number">1</div>
                     <div class="step__content">
-                        <h3 class="step__title">Install via Claude Code Plugin</h3>
+                        <h3 class="step__title">Clone and Install (Development)</h3>
                         <div class="code-block">
                             <div class="code-block__header">
-                                <span class="code-block__title">Claude Code Plugin Marketplace</span>
-                                <button class="code-block__copy" data-copy="Search for 'Armsforge' in Claude Code plugin settings and click 'Install'">
+                                <span class="code-block__title">Terminal</span>
+                                <button class="code-block__copy" data-copy="git clone https://github.com/Real-Fruit-Snacks/armsforge.git && cd armsforge && npm install && npm run build">
                                     Copy
                                 </button>
                             </div>
                             <code class="code-block__content">
-                                Search for "Armsforge" in Claude Code plugin settings and click "Install"
+                                git clone https://github.com/Real-Fruit-Snacks/armsforge.git
+cd armsforge
+npm install
+npm run build
                             </code>
                         </div>
                     </div>
@@ -264,6 +267,14 @@
                             </code>
                         </div>
                     </div>
+                </div>
+            </div>
+
+            <div class="warning-box">
+                <div class="warning-box__icon">📋</div>
+                <div class="warning-box__content">
+                    <h4>Installation Note</h4>
+                    <p>Claude Code plugin marketplace publication is planned for future release. Currently requires manual installation from source repository.</p>
                 </div>
             </div>
 

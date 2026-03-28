@@ -50,20 +50,15 @@ Armsforge delivers comprehensive offensive security capabilities through Claude 
 
 ### Installation
 
-**Option 1: Claude Code Plugin (Recommended)**
-```
-1. Open Claude Code plugin settings
-2. Search for "Armsforge"
-3. Click "Install"
-```
-
-**Option 2: Manual Installation (Development)**
+**Current Installation (Development)**
 ```bash
 git clone https://github.com/Real-Fruit-Snacks/armsforge.git
 cd armsforge
 npm install
 npm run build
 ```
+
+> **Note**: Claude Code plugin marketplace publication is planned for future release. Currently requires manual installation from source.
 
 ### Verification
 

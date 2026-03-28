@@ -393,26 +393,26 @@ body {
 }
 
 .floating-card--1 {
-  top: 20%;
-  left: 10%;
+  top: 15%;
+  left: 5%;
   animation-delay: 0s;
 }
 
 .floating-card--2 {
-  top: 60%;
-  right: 20%;
+  top: 70%;
+  right: 5%;
   animation-delay: 1.5s;
 }
 
 .floating-card--3 {
-  top: 10%;
-  right: 10%;
+  top: 5%;
+  right: 25%;
   animation-delay: 3s;
 }
 
 .floating-card--4 {
-  bottom: 20%;
-  left: 20%;
+  bottom: 10%;
+  left: 35%;
   animation-delay: 4.5s;
 }
 
@@ -450,6 +450,42 @@ body {
   .hero__illustration {
     order: -1;
     height: 300px;
+  }
+
+  /* Adjust floating card positions for smaller screens */
+  .floating-card--1 {
+    top: 10%;
+    left: 2%;
+  }
+
+  .floating-card--2 {
+    top: 75%;
+    right: 2%;
+  }
+
+  .floating-card--3 {
+    top: 5%;
+    right: 30%;
+  }
+
+  .floating-card--4 {
+    bottom: 5%;
+    left: 25%;
+  }
+}
+
+@media (max-width: 640px) {
+  .floating-card {
+    padding: var(--spacing-sm);
+    font-size: 0.75rem;
+  }
+
+  .floating-card__icon {
+    font-size: 1.25rem;
+  }
+
+  .floating-card__text {
+    font-size: 0.75rem;
   }
 }
 
