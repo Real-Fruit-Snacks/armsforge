@@ -1,370 +1,654 @@
-<p align="center">
-  <img src="docs/banner.svg" alt="Armsforge" width="800"/>
-</p>
+<div align="center">
 
-<p align="center">
-  <strong>Professional exploitation. Intelligent payloads. Zero detection footprint.</strong>
-</p>
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/Real-Fruit-Snacks/armsforge/main/docs/assets/logo-dark.svg">
+  <source media="(prefers-color-scheme: light)" srcset="https://raw.githubusercontent.com/Real-Fruit-Snacks/armsforge/main/docs/assets/logo-light.svg">
+  <img alt="Armsforge" src="https://raw.githubusercontent.com/Real-Fruit-Snacks/armsforge/main/docs/assets/logo-dark.svg" width="520">
+</picture>
+
+![TypeScript](https://img.shields.io/badge/language-TypeScript-blue.svg)
+![Platform](https://img.shields.io/badge/platform-Linux%20%7C%20Windows%20%7C%20macOS-lightgrey)
+![License](https://img.shields.io/badge/license-MIT-blue.svg)
+
+**AI-powered security platform for offensive operations — intelligent automation, Claude Code integration, workflow orchestration**
+
+Exploit development with automated shellcode generation. Payload engineering with advanced evasion techniques. Implant development with stealth C2 channels. OPSEC analysis with detection risk assessment. MCP tool integration for workflow automation. Template and snippet system for rapid development.
+
+> **Authorization Required**: This tool is designed exclusively for authorized security testing with explicit written permission. Unauthorized access to computer systems is illegal and may result in criminal prosecution.
+
+[Quick Start](#quick-start) • [Features](#features) • [MCP Tools](#mcp-tools) • [Architecture](#architecture) • [Agents](#agents) • [Security](#security)
+
+</div>
 
 ---
 
-> **⚠️ Disclaimer**: This tool is designed for authorized red team engagements, penetration testing, and security research only. Users are responsible for ensuring compliance with all applicable laws and regulations. Use only in environments you own or have explicit written permission to test.
+## Highlights
 
-## Table of Contents
+<table>
+<tr>
+<td width="50%">
 
-- [Features](#features)
-- [Quick Start](#quick-start)
-- [Usage](#usage)
-- [MCP Tools Reference](#mcp-tools-reference)
-- [Agent Reference](#agent-reference)
-- [Architecture](#architecture)
-- [Technology Stack](#technology-stack)
-- [Security Considerations](#security-considerations)
-- [Development](#development)
-- [Contributing](#contributing)
-- [License](#license)
+**Exploit Development**
+AI-accelerated exploit framework covering buffer overflows, format strings, web exploits, and deserialization attacks. Automated shellcode generation with target-specific customization. Smart ROP chain construction. Templates for every major vulnerability class.
 
-## Features
+**Payload Engineering**
+Advanced payload generation with multi-stage delivery systems. Custom encoders and polymorphic engines. Shellcode loaders in C, C#, Rust, Go, and Nim. Evasion techniques that adapt to target defensive posture. AV/EDR bypass through alternative API sequences.
 
-Armsforge delivers comprehensive offensive security capabilities through Claude Code integration:
+**Implant Development**
+C2 framework scaffolding with persistent access modules. Stealth communication channels using domain fronting and beacon jitter. Process injection techniques with OPSEC-safe patterns. Memory-only operation with zero disk footprint.
 
-- **🥷 Exploit Development**: Buffer overflows, format strings, web exploits with automated shellcode generation
-- **🚀 Payload Engineering**: Advanced evasion techniques, custom encoders, multi-stage delivery systems
-- **🤖 Implant Development**: C2 frameworks, persistence modules, stealth communication channels
-- **🔍 OPSEC Analysis**: Detection risk assessment, signature identification, evasion guidance
-- **📚 OSCP/OSEP Preparation**: Structured methodologies, practice scenarios, exam-focused workflows
-- **⚡ Claude Integration**: AI-powered code generation, automated testing, intelligent research assistance
-- **🛡️ Template System**: 50+ exploit templates, 25+ reusable snippets, comprehensive coverage
-- **🎯 MCP Tools**: Seamless Model Context Protocol integration for workflow automation
+**OPSEC Analysis**
+Comprehensive detection risk assessment across AV, EDR, SIEM, and SOC controls. Suspicious API pattern matching against known signatures. Sysmon event correlation. ETW provider analysis. AMSI trigger identification with bypass guidance.
+
+</td>
+<td width="50%">
+
+**MCP Tool Integration**
+Seamless Model Context Protocol bridge for Claude Code. Six core tools for template retrieval, snippet integration, and detection intelligence. Zod-validated parameters with structured output. Context-aware customization for every operation.
+
+**Template System**
+50+ exploit templates covering buffer overflows, process injection, HTTP stagers, and C2 implant skeletons. 25+ reusable code snippets for syscalls, encryption, injection, and API hooks. Language-specific scaffolds for Python, C#, Rust, and Go.
+
+**Agent Orchestration**
+Specialized AI agents for every offensive discipline. Exploit-dev, payload-eng, and implant-dev for development. OPSEC reviewer for detection analysis. Finding writer for report generation. Privesc analyst for escalation research. Skill-based invocation through Claude Code.
+
+**Certification Support**
+Structured methodologies for OSCP and OSEP preparation. Exam-focused workflows with practice scenarios. Privilege escalation checklists for Windows and Linux. Professional report frameworks. Time-pressured exploit development training with templates.
+
+</td>
+</tr>
+</table>
+
+---
 
 ## Quick Start
 
 ### Prerequisites
 
-| Requirement | Version | Purpose |
-|-------------|---------|---------|
-| **Node.js** | ≥20.0.0 | Runtime environment |
-| **npm** | ≥9.0.0 | Package management |
-| **Claude Code** | Latest | MCP integration |
-| **Git** | Latest | Version control |
+<table>
+<tr>
+<th>Requirement</th>
+<th>Version</th>
+<th>Purpose</th>
+</tr>
+<tr>
+<td>Node.js</td>
+<td>20+</td>
+<td>Runtime environment</td>
+</tr>
+<tr>
+<td>npm</td>
+<td>9+</td>
+<td>Package management</td>
+</tr>
+<tr>
+<td>Claude Code</td>
+<td>Latest</td>
+<td>MCP integration and agent orchestration</td>
+</tr>
+<tr>
+<td>Git</td>
+<td>Latest</td>
+<td>Version control</td>
+</tr>
+</table>
 
-### Installation
+### Build
 
-**Current Installation (Development)**
 ```bash
+# Clone repository
 git clone https://github.com/Real-Fruit-Snacks/armsforge.git
 cd armsforge
+
+# Install dependencies and build
 npm install
 npm run build
-```
 
-> **Note**: Claude Code plugin marketplace publication is planned for future release. Currently requires manual installation from source.
+# Verify
+npm test
+```
 
 ### Verification
 
-**Test MCP Integration**
-```
-In Claude Code, use MCP tool:
+```bash
+# Test MCP integration (in Claude Code)
 af_list_templates
-```
 
-**Test Skill Integration**
-```
-In Claude Code, use skill commands:
+# Test skill integration (in Claude Code)
 /armsforge:exploit buffer-overflow
 /armsforge:opsec-review
 ```
 
-## Usage
+### Development
+
+```bash
+# Development with watch mode
+npm run dev
+
+# Production build
+npm run build
+
+# Full test suite
+npm test
+
+# Lint and format
+npm run lint
+npm run format
+```
+
+---
+
+## Features
+
+### MCP Tools
+
+<table>
+<tr>
+<th>Tool</th>
+<th>Purpose</th>
+<th>Parameters</th>
+<th>Output</th>
+</tr>
+<tr>
+<td><code>af_list_templates</code></td>
+<td>Browse exploit template catalog</td>
+<td><code>category</code>, <code>language</code>, <code>arch</code></td>
+<td>Template catalog with metadata</td>
+</tr>
+<tr>
+<td><code>af_get_template</code></td>
+<td>Retrieve customized exploit code</td>
+<td><code>name</code>, <code>target_os</code>, <code>evasion_level</code></td>
+<td>Parameterized exploit code</td>
+</tr>
+<tr>
+<td><code>af_list_snippets</code></td>
+<td>Browse reusable code snippets</td>
+<td><code>language</code>, <code>technique</code></td>
+<td>Snippet catalog</td>
+</tr>
+<tr>
+<td><code>af_get_snippet</code></td>
+<td>Retrieve specific code pattern</td>
+<td><code>name</code>, <code>language</code></td>
+<td>Reusable code block</td>
+</tr>
+<tr>
+<td><code>af_detection_lookup</code></td>
+<td>Analyze detection risk patterns</td>
+<td><code>type</code>, <code>pattern</code>, <code>event_id</code></td>
+<td>Detection intelligence</td>
+</tr>
+<tr>
+<td><code>af_template_info</code></td>
+<td>Get template capability details</td>
+<td><code>name</code></td>
+<td>Capability metadata</td>
+</tr>
+</table>
+
+### Tool Parameters
+
+<table>
+<tr>
+<th>Parameter</th>
+<th>Type</th>
+<th>Values</th>
+<th>Default</th>
+<th>Description</th>
+</tr>
+<tr>
+<td><code>target_os</code></td>
+<td>string</td>
+<td><code>windows</code>, <code>linux</code>, <code>macos</code></td>
+<td><code>windows</code></td>
+<td>Target operating system</td>
+</tr>
+<tr>
+<td><code>target_arch</code></td>
+<td>string</td>
+<td><code>x86</code>, <code>x64</code>, <code>arm64</code></td>
+<td><code>x64</code></td>
+<td>Target architecture</td>
+</tr>
+<tr>
+<td><code>evasion_level</code></td>
+<td>integer</td>
+<td><code>1</code>, <code>2</code>, <code>3</code></td>
+<td><code>1</code></td>
+<td>Evasion sophistication level</td>
+</tr>
+<tr>
+<td><code>payload_format</code></td>
+<td>string</td>
+<td><code>exe</code>, <code>dll</code>, <code>shellcode</code>, <code>script</code></td>
+<td><code>exe</code></td>
+<td>Output format</td>
+</tr>
+<tr>
+<td><code>language</code></td>
+<td>string</td>
+<td><code>c</code>, <code>cpp</code>, <code>csharp</code>, <code>python</code>, <code>rust</code></td>
+<td><code>c</code></td>
+<td>Programming language</td>
+</tr>
+</table>
 
 ### Template Retrieval
 
-**List Available Templates**
-```
-In Claude Code, use MCP tools:
+```bash
+# List available templates
 af_list_templates
-
-With parameters:
 af_list_templates category="exploit" language="python" arch="x64"
-```
 
-**Generate Exploit**
-```
-Buffer overflow exploit:
+# Generate exploit
 af_get_template name="bof-exploit" target_os="windows" target_arch="x64"
 
-Web application exploit:
+# Web application exploit
 af_get_template name="sqli-exploit" format="python" evasion_level=2
 ```
 
 ### Snippet Integration
 
-**Code Snippet Retrieval**
-```
-Process injection techniques:
+```bash
+# Process injection techniques
 af_get_snippet name="process-injection" language="csharp"
 
-Encryption utilities:
+# Encryption utilities
 af_get_snippet name="aes-decrypt" language="c"
 ```
 
-### OPSEC Analysis
+### Detection Analysis
 
-**Detection Risk Assessment**
-```
-Analyze suspicious API usage:
+```bash
+# Suspicious API usage
 af_detection_lookup type="suspicious_api" pattern="VirtualAllocEx"
 
-Check SIEM detection patterns:
+# Sysmon detection patterns
 af_detection_lookup type="sysmon" event_id="1"
 ```
 
-## MCP Tools Reference
+---
 
-### Core Tools
-
-| Tool | Purpose | Parameters | Output |
-|------|---------|------------|--------|
-| `af_list_templates` | Browse exploit templates | `category`, `language`, `arch` | Template catalog |
-| `af_get_template` | Retrieve specific template | `name`, `target_os`, `evasion_level` | Customized exploit code |
-| `af_list_snippets` | Browse code snippets | `language`, `technique` | Snippet catalog |
-| `af_get_snippet` | Retrieve specific snippet | `name`, `language` | Reusable code block |
-| `af_detection_lookup` | Analyze detection patterns | `type`, `pattern`, `event_id` | Detection intelligence |
-| `af_template_info` | Get template metadata | `name` | Capability details |
-
-### Advanced Parameters
-
-| Parameter | Type | Values | Default | Description |
-|-----------|------|--------|---------|-------------|
-| `target_os` | string | `windows`, `linux`, `macos` | `windows` | Target operating system |
-| `target_arch` | string | `x86`, `x64`, `arm64` | `x64` | Target architecture |
-| `evasion_level` | integer | `1`, `2`, `3` | `1` | Sophistication level |
-| `payload_format` | string | `exe`, `dll`, `shellcode`, `script` | `exe` | Output format |
-| `language` | string | `c`, `cpp`, `csharp`, `python`, `rust` | `c` | Programming language |
-
-## Agent Reference
+## Agents
 
 ### Specialized Agents
 
-**Core Development Agents**
-| Agent | Capability | Model | Focus |
-|-------|------------|-------|-------|
-| `exploit-dev` | Buffer overflows, format strings, web exploits | Sonnet | Vulnerability development |
-| `payload-eng` | Shellcode, loaders, multi-stage payloads | Sonnet | Payload engineering |
-| `implant-dev` | C2 frameworks, persistence, communication | Sonnet | Implant architecture |
-
-**Analysis & Review Agents**
-| Agent | Capability | Model | Focus |
-|-------|------------|-------|-------|
-| `opsec-reviewer` | Detection analysis, evasion guidance | Opus | Operational security |
-| `finding-writer` | Report generation, documentation | Haiku | Technical writing |
-| `privesc-analyst` | Privilege escalation research | Sonnet | Escalation techniques |
+<table>
+<tr>
+<th>Agent</th>
+<th>Capability</th>
+<th>Model</th>
+<th>Focus</th>
+</tr>
+<tr>
+<td><code>exploit-dev</code></td>
+<td>Buffer overflows, format strings, web exploits</td>
+<td>Sonnet</td>
+<td>Vulnerability development</td>
+</tr>
+<tr>
+<td><code>payload-eng</code></td>
+<td>Shellcode, loaders, multi-stage payloads</td>
+<td>Sonnet</td>
+<td>Payload engineering</td>
+</tr>
+<tr>
+<td><code>implant-dev</code></td>
+<td>C2 frameworks, persistence, communication</td>
+<td>Sonnet</td>
+<td>Implant architecture</td>
+</tr>
+<tr>
+<td><code>opsec-reviewer</code></td>
+<td>Detection analysis, evasion guidance</td>
+<td>Opus</td>
+<td>Operational security</td>
+</tr>
+<tr>
+<td><code>finding-writer</code></td>
+<td>Report generation, documentation</td>
+<td>Haiku</td>
+<td>Technical writing</td>
+</tr>
+<tr>
+<td><code>privesc-analyst</code></td>
+<td>Privilege escalation research</td>
+<td>Sonnet</td>
+<td>Escalation techniques</td>
+</tr>
+</table>
 
 ### Agent Invocation
 
-**Skill-based Agent Usage (in Claude Code)**
-```
-Exploit development consultation:
+```bash
+# Exploit development
 /armsforge:exploit buffer-overflow --target windows --arch x64
 
-OPSEC review:
+# OPSEC review
 /armsforge:opsec-review --code ./payload.c --target enterprise
 
-Privilege escalation research:
+# Privilege escalation research
 /armsforge:privesc --os windows --method service
+
+# Payload generation
+/armsforge:payload shellcode --format exe --evasion 2
+
+# Loader scaffolding
+/armsforge:loader rust --technique process-hollowing
 ```
-
-## Architecture
-
-### Claude Code Integration
-
-```
-Claude Code CLI
-├── MCP Server Bridge
-│   ├── Tool Handlers (af_*)
-│   ├── Template Engine
-│   └── Context Validation
-├── Agent Orchestration
-│   ├── Specialized Agents
-│   ├── Workflow Management
-│   └── Result Synthesis
-└── Content Management
-    ├── Template Storage
-    ├── Snippet Library
-    └── Detection Database
-```
-
-### Data Flow
-
-**Template Generation Pipeline**
-1. **Request**: MCP tool invocation with parameters
-2. **Validation**: Context validation via Zod schemas
-3. **Selection**: Template matching based on criteria
-4. **Customization**: Parameter injection and code generation
-5. **OPSEC Review**: Detection risk analysis
-6. **Delivery**: Formatted code output
-
-**Agent Coordination**
-1. **Routing**: Skill-based agent selection
-2. **Context**: Shared memory and state management
-3. **Execution**: Parallel processing where applicable
-4. **Synthesis**: Result aggregation and presentation
-
-## Technology Stack
-
-### Core Technologies
-
-| Component | Technology | Purpose |
-|-----------|------------|---------|
-| **Runtime** | Node.js 20+ | JavaScript execution |
-| **Language** | TypeScript | Type-safe development |
-| **Integration** | MCP SDK | Claude Code connectivity |
-| **Validation** | Zod | Schema validation |
-| **Templates** | Handlebars | Dynamic code generation |
-| **Logging** | Winston | Structured logging |
-| **Styling** | Chalk | Terminal output |
-
-### Security Technologies
-
-| Component | Implementation | Security Benefit |
-|-----------|----------------|------------------|
-| **Input Validation** | Zod schemas | Injection prevention |
-| **Path Traversal Protection** | Custom validation | Filesystem security |
-| **Template Sandboxing** | Handlebars SafeString | XSS prevention |
-| **Error Handling** | Structured exceptions | Information disclosure prevention |
-| **Audit Trail** | Winston logging | Security monitoring |
-
-## Security Considerations
-
-### OPSEC Guidelines
-
-**Static Analysis Evasion**
-- No hardcoded strings (C2 URLs, credentials, signatures)
-- Obfuscated imports and API sequences
-- String encryption for sensitive data
-- Anti-analysis techniques
-
-**Behavioral Evasion**
-- Alternative API sequences vs. classic patterns
-- Sleep/jitter to avoid rapid execution detection
-- Memory management (RWX minimization)
-- Parent process masquerading
-
-**Network Evasion**
-- Randomized user agents and headers
-- Domain fronting support
-- Beacon jitter implementation
-- Legitimate traffic patterns
-
-### Detection Database
-
-**Coverage Areas**
-- Suspicious Win32 APIs and detection patterns
-- Sysmon event IDs for offensive techniques
-- ETW providers logging malicious activity
-- AMSI trigger patterns and bypass methods
-
-## Development
-
-### Build Process
-
-**Development Workflow**
-```bash
-npm run dev        # Development with watch mode
-npm run build      # Production build
-npm test          # Test suite execution
-npm run lint      # ESLint validation
-npm run format    # Prettier formatting
-```
-
-**Security Validation**
-```bash
-npm run audit:security     # High-severity vulnerability scan
-npm run audit:check        # Moderate-severity check
-npm run test:coverage      # Security-focused coverage metrics
-```
-
-### Project Structure
-
-```
-armsforge/
-├── src/                   # Source code
-│   ├── agents/           # Specialized agents
-│   ├── config/           # Configuration management
-│   ├── mcp/              # MCP server implementation
-│   ├── templates/        # Template engine
-│   ├── theme/            # Catppuccin styling
-│   └── utils/            # Utility functions
-├── test/                 # Test suites
-│   ├── integration/      # MCP integration tests
-│   └── unit/            # Unit tests
-├── data/                # Templates and snippets
-│   ├── templates/       # Exploit templates
-│   ├── snippets/        # Code snippets
-│   └── detection/       # Detection patterns
-├── docs/                # Documentation and website
-└── bridge/              # CLI bridge
-```
-
-### Testing Strategy
-
-**Security Test Coverage**
-- Template injection prevention
-- Path traversal protection
-- Input validation completeness
-- OPSEC guideline compliance
-- Detection pattern accuracy
-
-**Integration Testing**
-- MCP tool functionality
-- Agent coordination workflows
-- Template generation pipelines
-- Error handling robustness
-
-## Contributing
-
-### Development Guidelines
-
-**Code Standards**
-- TypeScript with strict mode enabled
-- ESLint + Prettier for consistency
-- Comprehensive JSDoc documentation
-- Security-first design principles
-
-**Security Review Process**
-1. **OPSEC Analysis**: Detection risk assessment
-2. **Code Review**: Security vulnerability scan
-3. **Integration Testing**: MCP workflow validation
-4. **Documentation**: Security implications noted
-
-**Contribution Workflow**
-1. Fork the repository
-2. Create feature branch (`git checkout -b feature/amazing-feature`)
-3. Commit changes (`git commit -m 'Add amazing feature'`)
-4. Push to branch (`git push origin feature/amazing-feature`)
-5. Open Pull Request with OPSEC analysis
-
-### Issue Reporting
-
-**Security Issues**
-- Report via private disclosure to maintain OPSEC
-- Include affected components and potential impact
-- Provide reproduction steps for verification
-
-**Feature Requests**
-- Describe operational use case and benefits
-- Consider OPSEC implications of proposed features
-- Reference relevant security research or methodologies
-
-## License
-
-**MIT License** - see [LICENSE](LICENSE) file for details.
-
-**Legal Notice**: This software is provided for authorized security testing, research, and educational purposes only. Users assume all responsibility for legal compliance and appropriate usage.
 
 ---
 
-<p align="center">
-  <strong>Armsforge - Forging the Future of Offensive Security</strong><br/>
-  <em>Built for professional red teams and security researchers</em>
-</p>
+## Architecture
+
+```
+armsforge/
+├── package.json                      # Dependencies, scripts, metadata
+├── tsconfig.json                     # TypeScript compiler configuration
+├── vitest.config.ts                  # Test runner configuration
+│
+├── src/                              # ── Source Code ──
+│   ├── agents/                       # Specialized AI agents
+│   │   ├── exploit-dev.ts            # Exploit development agent
+│   │   ├── payload-eng.ts            # Payload engineering agent
+│   │   ├── implant-dev.ts            # Implant development agent
+│   │   ├── opsec-reviewer.ts         # OPSEC analysis agent
+│   │   ├── finding-writer.ts         # Report generation agent
+│   │   └── privesc-analyst.ts        # Privilege escalation agent
+│   │
+│   ├── mcp/                          # ── MCP Server ──
+│   │   ├── server.ts                 # MCP server bridge
+│   │   ├── tools.ts                  # Tool handler definitions (af_*)
+│   │   └── validation.ts             # Zod schema validation
+│   │
+│   ├── templates/                    # ── Template Engine ──
+│   │   ├── engine.ts                 # Template matching and generation
+│   │   ├── loader.ts                 # Template file loading
+│   │   └── customizer.ts             # Parameter injection
+│   │
+│   ├── config/                       # Configuration management
+│   ├── theme/                        # Catppuccin styling
+│   └── utils/                        # Utility functions
+│
+├── data/                             # ── Content ──
+│   ├── templates/                    # 50+ exploit templates
+│   ├── snippets/                     # 25+ reusable code snippets
+│   └── detection/                    # Detection pattern database
+│
+├── test/                             # ── Tests ──
+│   ├── integration/                  # MCP integration tests
+│   └── unit/                         # Unit tests
+│
+├── skills/                           # ── Claude Code Skills ──
+│   ├── exploit.md                    # Exploit development skill
+│   ├── payload.md                    # Payload generation skill
+│   ├── loader.md                     # Loader scaffolding skill
+│   ├── opsec-review.md               # OPSEC review skill
+│   ├── privesc.md                    # Privilege escalation skill
+│   └── methodology.md               # Exam methodology skill
+│
+├── bridge/                           # CLI bridge
+│
+├── docs/                             # ── GitHub Pages ──
+│   ├── index.html                    # Project website
+│   └── assets/
+│       ├── logo-dark.svg             # Logo for dark theme
+│       └── logo-light.svg            # Logo for light theme
+│
+└── .github/
+    ├── workflows/
+    │   └── ci.yml                    # CI pipeline
+    ├── ISSUE_TEMPLATE/
+    │   ├── bug_report.yml            # Bug report form
+    │   └── feature_request.yml       # Feature request form
+    └── PULL_REQUEST_TEMPLATE.md      # PR checklist
+```
+
+### Execution Flow
+
+### Stage 1: Initialization
+1. **MCP Server Startup** — Node.js runtime initializes the MCP server bridge
+2. **Tool Registration** — Six core tools registered with Zod-validated schemas
+3. **Template Loading** — Template and snippet catalogs indexed from data directory
+4. **Agent Configuration** — Specialized agents configured with model routing
+
+### Stage 2: Request Processing
+```
+                   Claude Code CLI
+                         │
+         ┌───────┬───────┼───────┬───────┐
+         │       │       │       │       │
+      MCP Tools  Skills  Agents  Config
+         │       │       │       │
+         └───────┴───────┼───────┘
+                         │
+                  Template Engine
+              Matching + Generation
+                   + Validation
+                         │
+                    OPSEC Review
+              Detection Risk Analysis
+                + Evasion Guidance
+```
+
+### Stage 3: Code Generation
+- Template engine matches request criteria to appropriate scaffold
+- Parameter injection customizes code for target OS, arch, and evasion level
+- Snippet integration adds reusable patterns (syscalls, crypto, injection)
+- OPSEC review analyzes generated code against detection database
+- Output formatted and validated before delivery
+
+---
+
+## OPSEC Guidelines
+
+### Static Analysis Evasion
+
+<table>
+<tr>
+<th>Technique</th>
+<th>Description</th>
+</tr>
+<tr>
+<td>String Encryption</td>
+<td>No hardcoded strings — C2 URLs, credentials, and tool names encrypted at rest</td>
+</tr>
+<tr>
+<td>Import Obfuscation</td>
+<td>Suspicious Win32 API calls resolved dynamically to avoid static detection</td>
+</tr>
+<tr>
+<td>Signature Avoidance</td>
+<td>Code patterns avoid known malware signatures and YARA rule matches</td>
+</tr>
+<tr>
+<td>Anti-Analysis</td>
+<td>Sandbox detection, debugger checks, and timing-based evasion techniques</td>
+</tr>
+</table>
+
+### Behavioral Evasion
+
+<table>
+<tr>
+<th>Technique</th>
+<th>Description</th>
+</tr>
+<tr>
+<td>Alternative APIs</td>
+<td>Avoid classic VirtualAllocEx/WriteProcessMemory/CreateRemoteThread sequences</td>
+</tr>
+<tr>
+<td>Sleep/Jitter</td>
+<td>Randomized delays to avoid rapid-fire behavioral detection</td>
+</tr>
+<tr>
+<td>Memory Discipline</td>
+<td>Minimize RWX allocations, prefer RW then RX transitions</td>
+</tr>
+<tr>
+<td>Parent Spoofing</td>
+<td>Process parent masquerading for legitimate-looking process trees</td>
+</tr>
+</table>
+
+### Network Evasion
+
+<table>
+<tr>
+<th>Technique</th>
+<th>Description</th>
+</tr>
+<tr>
+<td>Traffic Blending</td>
+<td>Randomized user agents, headers, and legitimate-looking request patterns</td>
+</tr>
+<tr>
+<td>Domain Fronting</td>
+<td>CDN-based C2 communication hiding behind legitimate domains</td>
+</tr>
+<tr>
+<td>Beacon Jitter</td>
+<td>Randomized callback intervals to avoid periodic communication detection</td>
+</tr>
+<tr>
+<td>Protocol Mimicry</td>
+<td>C2 traffic disguised as normal HTTPS, DNS, or websocket communication</td>
+</tr>
+</table>
+
+---
+
+## Platform Support
+
+<table>
+<tr>
+<th>Capability</th>
+<th>Windows</th>
+<th>Linux</th>
+<th>macOS</th>
+</tr>
+<tr>
+<td>MCP Tools</td>
+<td>Full</td>
+<td>Full</td>
+<td>Full</td>
+</tr>
+<tr>
+<td>Template Engine</td>
+<td>Full</td>
+<td>Full</td>
+<td>Full</td>
+</tr>
+<tr>
+<td>Exploit Templates</td>
+<td>Full (primary target)</td>
+<td>Full</td>
+<td>Full</td>
+</tr>
+<tr>
+<td>Payload Generation</td>
+<td>Full (primary target)</td>
+<td>Full</td>
+<td>Limited</td>
+</tr>
+<tr>
+<td>Process Injection</td>
+<td>Full (Win32 APIs)</td>
+<td>ptrace-based</td>
+<td>Limited</td>
+</tr>
+<tr>
+<td>Implant Templates</td>
+<td>Full</td>
+<td>Full</td>
+<td>Partial</td>
+</tr>
+<tr>
+<td>Detection Database</td>
+<td>Full (Sysmon, ETW, AMSI)</td>
+<td>Partial (auditd)</td>
+<td>Partial</td>
+</tr>
+<tr>
+<td>OPSEC Review</td>
+<td>Full</td>
+<td>Full</td>
+<td>Full</td>
+</tr>
+<tr>
+<td>Skill Commands</td>
+<td>Full</td>
+<td>Full</td>
+<td>Full</td>
+</tr>
+<tr>
+<td>Agent Orchestration</td>
+<td>Full</td>
+<td>Full</td>
+<td>Full</td>
+</tr>
+</table>
+
+---
+
+## Security
+
+### Vulnerability Reporting
+
+**Report security issues via:**
+- GitHub Security Advisories (preferred)
+- Private disclosure to maintainers
+- Responsible disclosure timeline (90 days)
+
+**Do NOT:**
+- Open public GitHub issues for vulnerabilities
+- Disclose before coordination with maintainers
+- Exploit vulnerabilities in unauthorized contexts
+
+### What Armsforge Does NOT Do
+
+Armsforge is a **development platform**, not an autonomous attack system:
+
+- **Not an exploit kit** — Generates scaffolds and templates, not weaponized payloads
+- **Not a C2 server** — Provides implant templates, does not host infrastructure
+- **Not a scanner** — No active network reconnaissance or vulnerability scanning
+- **Not autonomous** — Requires human operator judgment for all operations
+- **Not a bypass guarantee** — OPSEC guidance is advisory, not a detection evasion guarantee
+
+---
+
+## License
+
+MIT License
+
+Copyright &copy; 2026 Real-Fruit-Snacks
+
+```
+THIS SOFTWARE IS PROVIDED "AS IS" WITHOUT WARRANTY OF ANY KIND.
+THE AUTHORS ARE NOT LIABLE FOR ANY DAMAGES ARISING FROM USE.
+USE AT YOUR OWN RISK AND ONLY WITH PROPER AUTHORIZATION.
+```
+
+---
+
+## Resources
+
+- **GitHub**: [github.com/Real-Fruit-Snacks/armsforge](https://github.com/Real-Fruit-Snacks/armsforge)
+- **Issues**: [Report a Bug](https://github.com/Real-Fruit-Snacks/armsforge/issues)
+- **Security**: [SECURITY.md](SECURITY.md)
+- **Contributing**: [CONTRIBUTING.md](CONTRIBUTING.md)
+- **Changelog**: [CHANGELOG.md](CHANGELOG.md)
+
+---
+
+<div align="center">
+
+**Part of the Real-Fruit-Snacks security toolkit**
+
+[Tidepool](https://github.com/Real-Fruit-Snacks/Tidepool) • [Riptide](https://github.com/Real-Fruit-Snacks/Riptide) • [Cascade](https://github.com/Real-Fruit-Snacks/Cascade) • [Slipstream](https://github.com/Real-Fruit-Snacks/Slipstream) • [HydroShot](https://github.com/Real-Fruit-Snacks/HydroShot) • [Aquifer](https://github.com/Real-Fruit-Snacks/Aquifer) • [Conduit](https://github.com/Real-Fruit-Snacks/Conduit) • [Flux](https://github.com/Real-Fruit-Snacks/Flux) • **Armsforge**
+
+*Remember: With great power comes great responsibility.*
+
+</div>
